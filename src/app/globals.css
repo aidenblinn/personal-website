@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .grid-cols-desktop {
+    grid-template-columns: repeat(4, 100px); /* Adjust the width as needed */
+    grid-auto-flow: row;
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Override CSS packaged with 'react-modal-resizable-draggable' */
+
+.flexible-modal-mask {
+  background: transparent !important;
+}
+
+.flexible-modal-drag-area {
+  height: 25px !important;
+  width: 90% !important;
+  left: 0 !important;
+  background: transparent !important;
+}
