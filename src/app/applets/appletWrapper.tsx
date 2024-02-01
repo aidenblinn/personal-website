@@ -21,34 +21,32 @@ export default function AppletWrapper(
         <p className="w-fit mx-auto">{title}</p>
       </div>
       <ReactModal
-        className="rounded"
+        className="rounded-lg overflow-hidden"
         isOpen={modalIsOpen}
         disableKeystroke={true}
       >
-        <div>
-          <div
-            onClick={() => {
-              setModal(false);
-            }}
-            className="flex justify-between bg-slate-200"
-          >
-            <div className="flex-1"></div>
-            <div className="w-fit">
-              <p>{title}</p>
-            </div>
-            <div className="flex-1 text-right">
-              <button
-                className="bg-blue-500 z-50 pointer-events-none"
-                onClick={() => {
-                  setModal(false);
-                }}
-              >
-                X
-              </button>
-            </div>
+        <div
+          onClick={() => {
+            setModal(false);
+          }}
+          className="flex justify-between items-center h-8 p-1 bg-blue-600"
+        >
+          <div className="flex-1 flex justify-start items-center h-6">
+            <img className="h-6 mr-2" src={`icons/${title}.ico`} />
+            <p className="text-white">{title}</p>
           </div>
-          {applet()}
+          <div className="flex-1 h-6 text-right">
+            <button
+              className="bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
+              onClick={() => {
+                setModal(false);
+              }}
+            >
+              X
+            </button>
+          </div>
         </div>
+        {applet()}
       </ReactModal>
     </>
   );
