@@ -1,6 +1,7 @@
 "use client";
 import AppletWrapper from "./applets/appletWrapper.tsx";
 import Email from "./applets/email.tsx";
+import Clock from "./applets/clock.tsx";
 
 export default function Home() {
   type iconArray = [() => JSX.Element, string];
@@ -32,7 +33,16 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <div className="w-screen h-12 bg-bliss-blue"></div>
+      <div className="flex justify-between items-center w-screen h-12 bg-bliss-blue">
+        {/* start */}
+        <div className="w-fit"></div>
+        {/* open apps */}
+        <div className="flex-1"></div>
+        {/* Clock */}
+        <div className="w-fit pr-2">
+          <Clock />
+        </div>
+      </div>
     </main>
   );
 }
