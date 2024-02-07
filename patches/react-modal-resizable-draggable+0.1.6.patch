@@ -1,0 +1,42 @@
+diff --git a/node_modules/react-modal-resizable-draggable/lib/index.d.ts b/node_modules/react-modal-resizable-draggable/lib/index.d.ts
+index 6c63c70..4cf17e3 100644
+--- a/node_modules/react-modal-resizable-draggable/lib/index.d.ts
++++ b/node_modules/react-modal-resizable-draggable/lib/index.d.ts
+@@ -2,6 +2,7 @@ import { Component } from 'react';
+ import './index.css';
+ import Modal from './model';
+ interface PropTypes {
++    children: React.JSX.Element[];
+     top?: number;
+     left?: number;
+     initHeight?: number;
+@@ -18,7 +19,7 @@ interface PropTypes {
+     disableKeystroke?: boolean;
+     disableVerticalResize?: boolean;
+     disableHorizontalResize?: boolean;
+-    onRequestClose: () => void;
++    onRequestClose?: () => void;
+     onRequestMinimise?: () => void;
+     onRequestRecover?: () => void;
+     onFocus?: () => void;
+diff --git a/node_modules/react-modal-resizable-draggable/src/index.tsx b/node_modules/react-modal-resizable-draggable/src/index.tsx
+index 429ab37..f105e86 100644
+--- a/node_modules/react-modal-resizable-draggable/src/index.tsx
++++ b/node_modules/react-modal-resizable-draggable/src/index.tsx
+@@ -5,6 +5,7 @@ import Resizer from './resize';
+ import Modal from './model';
+ 
+ interface PropTypes {
++  children: React.JSX.Element[];
+ 	top?: number;
+ 	left?: number;
+ 	initHeight?: number;
+@@ -21,7 +22,7 @@ interface PropTypes {
+ 	disableKeystroke?: boolean;
+ 	disableVerticalResize?: boolean;
+ 	disableHorizontalResize?: boolean;
+-	onRequestClose: () => void;
++	onRequestClose?: () => void;
+ 	onRequestMinimise?: () => void;
+ 	onRequestRecover?: () => void;
+ 	onFocus?: () => void;
