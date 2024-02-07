@@ -17,6 +17,7 @@ body {
 
 .flexible-modal-mask {
   background: transparent !important;
+  z-index: -1;
 }
 
 .flexible-modal-drag-area {
