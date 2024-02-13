@@ -6,6 +6,16 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  /**
+   * Program indices will have z-indices indicating their layering on the page
+   * Tailwind utility classes must be present in generated CSS so they can be
+   * dynamically rendered as the user interacts with the site.
+   */
+  safelist: [
+    ...Array(12)
+      .fill(0)
+      .map((_, index) => `!z-[${index}]`),
+  ],
   theme: {
     extend: {
       backgroundImage: {
@@ -17,6 +27,6 @@ const config: Config = {
     },
   },
   plugins: [],
-  important: true,
 };
+
 export default config;
