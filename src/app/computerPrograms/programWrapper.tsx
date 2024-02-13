@@ -1,25 +1,24 @@
 import { useState, SetStateAction } from "react";
 import ReactModal from "react-modal-resizable-draggable";
-import { Program } from "../../../types.ts";
+import { DesktopState, Program } from "../../../types.ts";
 
 type programWrapperProps = {
   program: Program;
-  focusProgram: (programName: string) => void;
+  focusProgram: (programName: string, openingProgram?: boolean) => void;
   zIndex: number;
-  taskBarPrograms: string[];
-  setTaskBarPrograms: React.Dispatch<SetStateAction<string[]>>;
-  modalHierarchy: string[];
-  setModalHierarchy: React.Dispatch<SetStateAction<string[]>>;
+  desktopDisplay: DesktopState;
+  setDesktopDisplay: React.Dispatch<SetStateAction<DesktopState>>;
+  isActive: boolean;
 };
 
 export default function ProgramWrapper({
   program,
   focusProgram,
   zIndex,
-  taskBarPrograms,
-  setTaskBarPrograms,
-  modalHierarchy,
-  setModalHierarchy,
+  desktopDisplay,
+  setDesktopDisplay,
+  /** TODO: APPLY ACTIVE STYLING TO BORDER */
+  isActive,
 }: programWrapperProps): React.ReactElement {
   const { programModal, name, size } = program;
   const { minHeight, minWidth, initHeight, initWidth } = size;
@@ -27,14 +26,33 @@ export default function ProgramWrapper({
   const [programIsOpen, setProgramVisibility] = useState(false);
 
   const openProgram = (programName: string): void => {
-    focusProgram(programName);
-    setTaskBarPrograms(taskBarPrograms.concat([programName]));
     setProgramVisibility(true);
+    focusProgram(programName, true);
   };
 
-  const closeProgram = (programName: string): void => {
-    setModalHierarchy(modalHierarchy.filter((el) => el !== programName));
-    setTaskBarPrograms(taskBarPrograms.filter((el) => el !== programName));
+  const closeProgram = (
+    programName: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    // Prevent click from triggering onFocus call in parent element
+    event.stopPropagation();
+
+    // Reset active task bar program state if active program closed
+    let activeProgram = desktopDisplay.activeProgram;
+    if (desktopDisplay.activeProgram === programName) {
+      activeProgram = null;
+    }
+
+    setDesktopDisplay({
+      activeProgram,
+      modalHierarchy: desktopDisplay.modalHierarchy.filter(
+        (el) => el !== programName
+      ),
+      taskBarPrograms: desktopDisplay.taskBarPrograms.filter(
+        (el) => el !== programName
+      ),
+    });
+
     setProgramVisibility(false);
   };
 
@@ -44,15 +62,15 @@ export default function ProgramWrapper({
       <div
         className="w-16 h-16 m-2 hover:cursor-pointer"
         key={`${name}-program`}
-        id={`${name}-program#`}
-        onClick={() => openProgram(`${name}-program`)}
+        id={`${name}-program`}
+        onClick={() => openProgram(name)}
       >
         <img className="mx-auto h-12" src={`icons/${name}.ico`} />
         <p className="w-fit mx-auto">{name}</p>
       </div>
       {/* Program that opens as modal when icon above is clicked */}
       <ReactModal
-        className="rounded-lg overflow-hidden border-[3px] border-blue-600"
+        className={`!z-[${zIndex}] rounded-lg overflow-hidden`}
         minHeight={minHeight}
         minWidth={minWidth}
         initHeight={initHeight}
@@ -62,7 +80,9 @@ export default function ProgramWrapper({
         onFocus={() => focusProgram(name)}
       >
         <div
-          className={`z-[${zIndex}] indedxflex justify-between items-center h-8 p-1 bg-blue-600`}
+          className={
+            "flex justify-between items-center h-8 p-1 bg-blue-600 z-10"
+          }
         >
           {/* Bar at top of program with name and icon */}
           <div className="flex-1 flex justify-start items-center h-6">
@@ -73,9 +93,7 @@ export default function ProgramWrapper({
           <div className="flex-1 h-6 text-right">
             <button
               className="bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
-              onClick={() => {
-                closeProgram(`${name}-program`);
-              }}
+              onClick={(event) => closeProgram(name, event)}
             >
               X
             </button>
