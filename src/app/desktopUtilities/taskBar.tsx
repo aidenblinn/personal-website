@@ -1,31 +1,35 @@
 type taskBarProps = {
   taskBarPrograms: string[];
-  activeTaskBarProgram: string | null;
+  activeProgram: string | null;
   focusProgram: (programName: string) => void;
 };
 
 export default function TaskBar({
   taskBarPrograms,
-  activeTaskBarProgram,
+  activeProgram,
   focusProgram,
 }: taskBarProps): React.ReactElement {
-  const activeProgram: string = "text-white";
-  const inactiveProgram: string = "text-red-500";
+  const inactiveStyle: string =
+    "flex flex-wrap justify-start content-center h-full w-[120px] px-2 bg-blue-400 text-white rounded hover:cursor-pointer";
+  const activeStyle: string = inactiveStyle.replace(
+    "text-white",
+    "text-red-500"
+  );
 
   return (
-    <>
+    <div className="flex-1 flex justify-start h-full p-1 gap-x-1">
       {taskBarPrograms.map((programName: string) => (
-        <p
+        <div
           className={
-            programName === activeTaskBarProgram
-              ? activeProgram
-              : inactiveProgram
+            programName === activeProgram ? activeStyle : inactiveStyle
           }
           onClick={() => focusProgram(programName)}
+          key={`${programName}-taskbar`}
         >
-          {programName}
-        </p>
+          <img className="h-6 mr-2" src={`icons/${programName}.ico`} />
+          <p className="h-fit">{programName}</p>
+        </div>
       ))}
-    </>
+    </div>
   );
 }
