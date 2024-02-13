@@ -2,22 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .grid-cols-desktop {
-    grid-template-columns: repeat(4, 100px); /* Adjust the width as needed */
-    grid-auto-flow: row;
-  }
-}
-
 body {
   overflow: hidden;
 }
 
 /* Override CSS packaged with 'react-modal-resizable-draggable' */
 
+.flexible-modal {
+  border: 3px !important;
+  border: 3px solid rgb(37 99 235) !important;
+}
+
 .flexible-modal-mask {
+  height: 0 !important;
+  width: 0 !important;
+  z-index: -1 !important;
   background: transparent !important;
-  z-index: -1;
 }
 
 .flexible-modal-drag-area {
@@ -25,4 +25,15 @@ body {
   width: 90% !important;
   left: 0 !important;
   background: transparent !important;
+}
+
+.flexible-modal-resizer {
+  border: none !important;
+}
+
+.flexible-modal-drag-area-bottom,
+.flexible-modal-drag-area-left,
+.flexible-modal-drag-area-right {
+  position: absolute !important;
+  z-index: -1 !important;
 }
