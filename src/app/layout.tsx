@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`overscroll-none ${inter.className}`}>{children}</body>
+      <body className={`overflow-hidden overscroll-none ${inter.className}`}>
+        {children}
+      </body>
     </html>
   );
 }
