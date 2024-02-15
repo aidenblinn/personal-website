@@ -4,7 +4,7 @@ import { DesktopState, Program } from "../../../types.ts";
 
 type programWrapperProps = {
   program: Program;
-  focusProgram: (programName: string, openingProgram?: boolean) => void;
+  focusProgram: (name: string, openingProgram?: boolean) => void;
   zIndex: number;
   desktopDisplay: DesktopState;
   setDesktopDisplay: React.Dispatch<SetStateAction<DesktopState>>;
@@ -23,15 +23,23 @@ export default function ProgramWrapper({
   const { programModal, name, size } = program;
   const { minHeight, minWidth, initHeight, initWidth } = size;
 
-  const [programIsOpen, setProgramVisibility] = useState(false);
-
-  const openProgram = (programName: string): void => {
-    setProgramVisibility(true);
-    focusProgram(programName, true);
+  /**
+   *
+   * @param name Name of program to open
+   */
+  const openProgram = (name: string): void => {
+    // Only open program if not already open on desktop
+    const openingProgram = !desktopDisplay.taskBarPrograms.includes(name);
+    focusProgram(name, openingProgram);
   };
 
+  /**
+   *
+   * @param name Name of program to close
+   * @param event Button click event
+   */
   const closeProgram = (
-    programName: string,
+    name: string,
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     // Prevent click from triggering onFocus call in parent element
@@ -39,21 +47,18 @@ export default function ProgramWrapper({
 
     // Reset active task bar program state if active program closed
     let activeProgram = desktopDisplay.activeProgram;
-    if (desktopDisplay.activeProgram === programName) {
+    if (desktopDisplay.activeProgram === name) {
       activeProgram = null;
     }
 
     setDesktopDisplay({
+      ...desktopDisplay,
       activeProgram,
-      modalHierarchy: desktopDisplay.modalHierarchy.filter(
-        (el) => el !== programName
-      ),
+      modalHierarchy: desktopDisplay.modalHierarchy.filter((el) => el !== name),
       taskBarPrograms: desktopDisplay.taskBarPrograms.filter(
-        (el) => el !== programName
+        (el) => el !== name
       ),
     });
-
-    setProgramVisibility(false);
   };
 
   return (
@@ -61,12 +66,13 @@ export default function ProgramWrapper({
       {/* Icon on simulated desktop that opens computer program */}
       <div
         className="w-16 h-16 m-2 hover:cursor-pointer"
-        key={`${name}-program`}
         id={`${name}-program`}
         onClick={() => openProgram(name)}
       >
         <img className="mx-auto h-12" src={`icons/${name}.ico`} />
-        <p className="w-fit mx-auto">{name}</p>
+        <p className="w-fit mx-auto text-white [text-shadow:_2px_2px_1px_rgb(0,0,0)]">
+          {name}
+        </p>
       </div>
       {/* Program that opens as modal when icon above is clicked */}
       <ReactModal
@@ -75,7 +81,7 @@ export default function ProgramWrapper({
         minWidth={minWidth}
         initHeight={initHeight}
         initWidth={initWidth}
-        isOpen={programIsOpen}
+        isOpen={zIndex !== -1}
         disableKeystroke={true}
         onFocus={() => focusProgram(name)}
       >
