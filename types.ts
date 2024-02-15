@@ -30,4 +30,6 @@ export type DesktopState = {
    * will be indicated in task bar and in modal border color.
    */
   activeProgram: string | null;
+  /** Determines whether or not to mute sounds */
+  muted: boolean;
 };
