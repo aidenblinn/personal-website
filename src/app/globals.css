@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  overflow: hidden;
+/* Custom font */
+
+@font-face {
+  font-family: windows-xp-tahoma;
+  src: url(../../public/fonts/windows-xp-tahoma.otf);
+  size-adjust: 150%;
+}
+
+p {
+  font-family: windows-xp-tahoma;
 }
 
 /* Override CSS packaged with 'react-modal-resizable-draggable' */
