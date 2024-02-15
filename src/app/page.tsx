@@ -1,9 +1,9 @@
 "use client";
 import ProgramWrapper from "./computerPrograms/programWrapper.tsx";
-import Clock from "./desktopUtilities/clock.tsx";
+import Tools from "./desktopUtilities/tools.tsx";
 import TaskBar from "./desktopUtilities/taskBar.tsx";
 import { useState } from "react";
-import { programColumns } from "./computerPrograms/programColumns.tsx";
+import { programColumns } from "./computerPrograms/programInfo.tsx";
 import { DesktopState, Program } from "../../types.ts";
 
 export default function Home() {
@@ -11,6 +11,7 @@ export default function Home() {
     modalHierarchy: [],
     taskBarPrograms: [],
     activeProgram: null,
+    muted: false,
   });
 
   /**
@@ -18,35 +19,25 @@ export default function Home() {
    * and by setting its task bar icon as active.
    * This function is triggered when a user clicks on a program's modal
    * or clicks on a program's task bar icon.
-   * @param programName Name of program to focus
+   * @param name Name of program to focus
    * @param openingProgram Boolean indicating whether program is being opened
    */
-  const focusProgram = (
-    programName: string,
-    openingProgram?: boolean
-  ): void => {
+  const focusProgram = (name: string, openingProgram?: boolean): void => {
     const taskBarPrograms = desktopDisplay.taskBarPrograms;
     // Add new program to task bar if opening program
-    // and if program not already in task bar
-    if (
-      openingProgram &&
-      !desktopDisplay.taskBarPrograms.includes(programName)
-    ) {
-      taskBarPrograms.push(programName);
+    if (openingProgram) {
+      taskBarPrograms.push(name);
     }
 
     setDesktopDisplay({
+      ...desktopDisplay,
       taskBarPrograms,
-      activeProgram: programName,
+      activeProgram: name,
       // Move program to end of hierarchy array (highest z-index)
       modalHierarchy: desktopDisplay.modalHierarchy
-        .filter((el) => el !== programName)
-        .concat([programName]),
+        .filter((el) => el !== name)
+        .concat([name]),
     });
-  };
-
-  const setDesktopDisplayHelper = (input: DesktopState) => {
-    setDesktopDisplay(input);
   };
 
   return (
@@ -59,6 +50,7 @@ export default function Home() {
           >
             {programArray.map((program: Program) => (
               <ProgramWrapper
+                key={`${program.name}-program`}
                 program={program}
                 focusProgram={focusProgram}
                 zIndex={desktopDisplay.modalHierarchy.indexOf(program.name)}
@@ -73,7 +65,7 @@ export default function Home() {
       <div className="flex justify-between items-center w-screen h-12 bg-bliss-blue">
         {/* Start Menu */}
         <div className="flex items-center w-fit h-full px-2 bg-green-500">
-          <p className="text-white">Start</p>
+          <h1 className="text-white">Start</h1>
         </div>
         {/* Task Bar */}
         <TaskBar
@@ -81,9 +73,9 @@ export default function Home() {
           activeProgram={desktopDisplay.activeProgram}
           focusProgram={focusProgram}
         />
-        {/* Clock */}
+        {/* Tools to the right of the task bar */}
         <div className="flex items-center w-fit h-full px-2 bg-blue-400">
-          <Clock />
+          <Tools muted={desktopDisplay.muted} />
         </div>
       </div>
     </main>
