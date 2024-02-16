@@ -10,15 +10,16 @@ export const taskBarSlice = createSlice({
   name: "taskBar",
   initialState,
   reducers: {
-    addProgram: (state, action: PayloadAction<string>) => {
+    addToTaskBar: (state, action: PayloadAction<string>) => {
       state.programs.push(action.payload);
     },
-    removeProgram: (state, action: PayloadAction<string>) => {
-      state.programs.filter((el) => el !== action.payload);
+    removeFromTaskBar: (state, action: PayloadAction<string>) => {
+      const programs = [...state.programs];
+      state.programs = programs.filter((el) => el !== action.payload);
     },
   },
 });
 
-export const { addProgram, removeProgram } = taskBarSlice.actions;
+export const { addToTaskBar, removeFromTaskBar } = taskBarSlice.actions;
 
 export default taskBarSlice.reducer;

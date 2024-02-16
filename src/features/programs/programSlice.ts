@@ -12,20 +12,21 @@ export const programSlice = createSlice({
   reducers: {
     bumpModalToTop: (state, action: PayloadAction<string>) => {
       const modals = [...state.modalHierarchy];
-      modals.filter((el) => el !== action.payload).concat([action.payload]);
-      state.modalHierarchy = modals;
+      state.modalHierarchy = modals
+        .filter((el) => el !== action.payload)
+        .concat([action.payload]);
     },
-    addModal: (state, action: PayloadAction<string>) => {
+    addModalToDesktop: (state, action: PayloadAction<string>) => {
       state.modalHierarchy = [...state.modalHierarchy, action.payload];
     },
-    removeModal: (state, action: PayloadAction<string>) => {
+    removeModalFromDesktop: (state, action: PayloadAction<string>) => {
       const modals = [...state.modalHierarchy];
-      modals.filter((el) => el !== action.payload);
-      state.modalHierarchy = modals;
+      state.modalHierarchy = modals.filter((el) => el !== action.payload);
     },
   },
 });
 
-export const { bumpModalToTop, addModal, removeModal } = programSlice.actions;
+export const { bumpModalToTop, addModalToDesktop, removeModalFromDesktop } =
+  programSlice.actions;
 
 export default programSlice.reducer;
