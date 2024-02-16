@@ -1,8 +1,15 @@
 import ReactModal from "react-modal-resizable-draggable";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { bumpModalToTop, addModal, removeModal } from "./programSlice";
+import {
+  bumpModalToTop,
+  addModalToDesktop,
+  removeModalFromDesktop,
+} from "./programSlice";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
-import { addProgram, removeProgram } from "../utilityBar/taskBar/taskBarSlice";
+import {
+  addToTaskBar,
+  removeFromTaskBar,
+} from "../utilityBar/taskBar/taskBarSlice";
 import { ProgramType } from "../../../types.ts";
 
 export default function Program({
@@ -25,11 +32,12 @@ export default function Program({
    * @param name Name of program to open
    */
   const openProgram = (name: string): void => {
+    dispatch(changeActiveProgram(name));
     if (!taskBarPrograms.includes(name)) {
       // Only open program if not already open on desktop
-      dispatch(addProgram(name));
+      dispatch(addToTaskBar(name));
       // Add program modal to screen
-      dispatch(addModal(name));
+      dispatch(addModalToDesktop(name));
     } else {
       // Bump modal to top if application already open
       dispatch(bumpModalToTop(name));
@@ -47,15 +55,13 @@ export default function Program({
   ): void => {
     // Prevent click from triggering onFocus call in parent element
     event.stopPropagation();
-
     // Reset active program if active program is being closed
     if (isActiveProgram) {
       dispatch(changeActiveProgram(null));
     }
-
     // Remove program modal from screen and from task bar
-    dispatch(removeModal(name));
-    dispatch(removeProgram(name));
+    dispatch(removeModalFromDesktop(name));
+    dispatch(removeFromTaskBar(name));
   };
 
   return (
