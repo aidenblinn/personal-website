@@ -1,5 +1,5 @@
-import Email from "./email.tsx";
-import { Program } from "../../../types.ts";
+import Email from "../features/programs/email/email.tsx";
+import { Program } from "../../types.ts";
 
 /**
  * List of programs to be displayed on desktop

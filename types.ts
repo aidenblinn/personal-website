@@ -2,7 +2,7 @@
  * Stores information about an individual program,
  * which is rendered as a pop-up modal on the simulated desktop
  */
-export type Program = {
+export type ProgramType = {
   programModal: () => React.ReactElement;
   name: string;
   size: {
