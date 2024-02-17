@@ -8,11 +8,11 @@ type ProgramModalAttributes = {
 
 export const isMobileDevice =
   // Only access navigator object if on client side
-  typeof document === "undefined"
-    ? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+  typeof navigator === "undefined"
+    ? false
+    : /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
-      )
-    : false;
+      );
 
 export const getAttributesByDeviceType = ({
   initHeight,
