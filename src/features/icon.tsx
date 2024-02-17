@@ -1,10 +1,16 @@
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { bumpModalToTop, addModalToDesktop } from "./programs/programSlice";
+import { useAppSelector, useAppDispatch } from "../app/hooks.ts";
+import { bumpModalToTop, addModalToDesktop } from "./programs/programSlice.ts";
 import { changeActiveProgram } from "./activeProgramSlice.ts";
-import { addToTaskBar } from "./utilityBar/taskBar/taskBarSlice";
+import { addToTaskBar } from "./utilityBar/taskBar/taskBarSlice.ts";
 import { IconType } from "../../types.ts";
 
-export default function Icon({ icon }: { icon: IconType }) {
+export default function Icon({
+  children,
+  icon,
+}: {
+  children?: React.ReactElement;
+  icon: IconType;
+}) {
   const dispatch = useAppDispatch();
   const { name, type } = icon;
 
