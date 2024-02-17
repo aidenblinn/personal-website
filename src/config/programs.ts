@@ -1,14 +1,15 @@
-import Email from "../features/programs/email/email.tsx";
 import Placeholder from "../features/programs/placeholder/placeholder.tsx";
-import { ProgramType } from "../../types.ts";
+import { IconType } from "../../types.ts";
 
 /**
- * List of programs to be displayed on desktop
+ * List of icons to be displayed on desktop,
+ * mapping either to a program modal or an external link.
  */
-const programs: ProgramType[] = [
+const icons: IconType[] = [
   {
-    programModal: Placeholder,
     name: "Email",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -17,8 +18,9 @@ const programs: ProgramType[] = [
     },
   },
   {
-    programModal: Placeholder,
     name: "Clock",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -27,8 +29,9 @@ const programs: ProgramType[] = [
     },
   },
   {
-    programModal: Placeholder,
     name: "Folder",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -37,18 +40,14 @@ const programs: ProgramType[] = [
     },
   },
   {
-    programModal: Placeholder,
     name: "LinkedIn",
-    size: {
-      initHeight: 300,
-      initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
-    },
+    type: "link",
+    url: "https://www.linkedin.com/in/aidenblinn/",
   },
   {
-    programModal: Placeholder,
     name: "Music",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -57,8 +56,9 @@ const programs: ProgramType[] = [
     },
   },
   {
-    programModal: Placeholder,
     name: "Paint",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -67,21 +67,24 @@ const programs: ProgramType[] = [
     },
   },
   {
-    programModal: Placeholder,
     name: "Trash",
+    type: "program",
+    programModal: Placeholder,
     size: {
       initHeight: 300,
       initWidth: 400,
       minHeight: 100,
       minWidth: 100,
     },
+  },
+  {
+    name: "GitHub",
+    type: "link",
+    url: "https://github.com/aidenblinn",
   },
 ];
 
 /**
- * Each sub-array represents a column of programs to be displayed on the desktop
+ * Each sub-array represents a column of icons to be displayed on the desktop
  */
-export const programColumns: ProgramType[][] = [
-  programs.slice(0, 4),
-  programs.slice(4, 7),
-];
+export const iconColumns: IconType[][] = [icons.slice(0, 4), icons.slice(4, 8)];
