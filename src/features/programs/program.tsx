@@ -1,9 +1,13 @@
 import ReactModal from "react-modal-resizable-draggable";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { bumpModalToTop, removeModalFromDesktop } from "./programSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks.ts";
+import { bumpModalToTop, removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
-import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice";
+import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
 import { ProgramType } from "../../../types.ts";
+import {
+  isMobileDevice,
+  getAttributesByDeviceType,
+} from "../../utils/deviceTypeUtils.ts";
 
 export default function Program({
   program,
@@ -11,7 +15,6 @@ export default function Program({
   program: ProgramType;
 }): React.ReactElement {
   const dispatch = useAppDispatch();
-
   const { programModal, name, size } = program;
   const { minHeight, minWidth, initHeight, initWidth } = size;
   const isActiveProgram =
@@ -40,24 +43,27 @@ export default function Program({
     dispatch(removeFromTaskBar(name));
   };
 
-  window.screen.width;
-
   return (
     <ReactModal
       className={
         `!z-[${zIndex}] rounded-lg overflow-hidden !border-[3px] !border-solid ` +
-        (isActiveProgram ? "!border-blue-600" : "!border-blue-400")
+        (isActiveProgram ? "!border-blue-600" : "!border-blue-400") +
+        (isMobileDevice
+          ? " !absolute !top-[10px] !left-1/2 !transform !-translate-x-1/2"
+          : "")
       }
-      minHeight={minHeight}
-      minWidth={minWidth}
-      initHeight={initHeight}
-      initWidth={initWidth}
       isOpen={zIndex !== -1}
       disableKeystroke={true}
-      onFocus={() => {
-        dispatch(bumpModalToTop(name));
-        dispatch(changeActiveProgram(name));
-      }}
+      {...getAttributesByDeviceType({
+        initHeight,
+        initWidth,
+        minHeight,
+        minWidth,
+        onFocus: () => {
+          dispatch(bumpModalToTop(name));
+          dispatch(changeActiveProgram(name));
+        },
+      })}
     >
       {/* Title Bar */}
       <div
