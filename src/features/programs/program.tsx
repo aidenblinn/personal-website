@@ -1,4 +1,3 @@
-import ReactModal from "react-modal-resizable-draggable";
 import { useAppSelector, useAppDispatch } from "../../app/hooks.ts";
 import { bumpModalToTop, removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
@@ -8,6 +7,15 @@ import {
   isMobileDevice,
   getAttributesByDeviceType,
 } from "../../utils/deviceTypeUtils.ts";
+
+// This component relies on  accessing the document object -- only render on client side
+import dynamic from "next/dynamic";
+const ReactModal = dynamic(
+  () => {
+    return import("react-modal-resizable-draggable");
+  },
+  { ssr: false }
+);
 
 export default function Program({
   program,
