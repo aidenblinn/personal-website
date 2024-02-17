@@ -16,11 +16,6 @@ p {
 
 /* Override CSS packaged with 'react-modal-resizable-draggable' */
 
-.flexible-modal {
-  border: 3px !important;
-  border: 3px solid rgb(37 99 235) !important;
-}
-
 .flexible-modal-mask {
   height: 0 !important;
   width: 0 !important;
