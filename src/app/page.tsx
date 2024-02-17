@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Provider } from "react-redux";
-import Program from "./programs/program.tsx";
-import Icon from "./icon.tsx";
-import UtilityBar from "./utilityBar/utilityBar.tsx";
+import Program from "../features/programs/program.tsx";
+import Icon from "../features/icon.tsx";
+import UtilityBar from "../features/utilityBar/utilityBar.tsx";
 import { iconColumns } from "../config/icons.ts";
 import { IconType } from "../../types.ts";
-import store from "../app/store.ts";
+import store from "./store.ts";
 
 export default function Desktop() {
   return (

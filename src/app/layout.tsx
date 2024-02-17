@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Desktop from "../features/desktop.tsx";
+import Desktop from "./page.tsx";
 
 export const metadata: Metadata = {
   title: "Aiden Blinn | Software Engineer",
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={"overflow-hidden overscroll-none select-none"}>
-        <Desktop />
+        {children}
       </body>
     </html>
   );
