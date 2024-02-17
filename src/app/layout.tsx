@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Desktop from "./page.tsx";
 
 export const metadata: Metadata = {
   title: "Aiden Blinn | Software Engineer",
