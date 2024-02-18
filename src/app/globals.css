@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS */
+
+.gradient-border {
+  border: none;
+  background: linear-gradient(to left, #00000080, transparent);
+}
+
 /* Custom font */
 
 @font-face {

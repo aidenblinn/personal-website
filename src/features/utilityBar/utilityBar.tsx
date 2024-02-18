@@ -4,10 +4,14 @@ import StartMenu from "./startMenu/startMenu.tsx";
 
 export default function UtilityBar(): React.ReactElement {
   return (
-    <div className="flex justify-between items-center w-screen h-12 bg-bliss-blue">
-      <StartMenu />
-      <TaskBar />
-      <Tools />
+    <div className="relative">
+      <div className="absolute h-2 w-full top-0 bg-gradient-to-b from-white/25"></div>
+      <div className="flex relative justify-between items-center w-screen h-12 -z-[1] bg-gradient-to-b from-[#235AD6] to-[#2560DD]">
+        <StartMenu />
+        <TaskBar />
+        <Tools />
+      </div>
+      <div className="absolute h-1 w-full bottom-0 bg-gradient-to-t from-black/50"></div>
     </div>
   );
 }
