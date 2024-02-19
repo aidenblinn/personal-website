@@ -54,10 +54,9 @@ export default function Program({
   return (
     <ReactModal
       className={
-        `!z-[${zIndex}] rounded-lg overflow-hidden !border-[3px] !border-solid ` +
-        (isActiveProgram ? "!border-blue-600" : "!border-blue-400") +
+        `relative !z-[${zIndex}] rounded-b-lg !border-none ` +
         (isMobileDevice
-          ? " !absolute !top-[10px] !left-1/2 !transform !-translate-x-1/2"
+          ? " !absolute !top-[40px] !left-1/2 !transform !-translate-x-1/2"
           : "")
       }
       isOpen={zIndex !== -1}
@@ -76,8 +75,10 @@ export default function Program({
       {/* Title Bar */}
       <div
         className={
-          "flex justify-between items-center h-8 p-1 " +
-          (isActiveProgram ? "bg-blue-600" : "bg-blue-400")
+          "absolute -top-8 flex justify-between items-center h-8 w-full p-1 bg-gradient-to-b rounded-t-lg " +
+          (isActiveProgram
+            ? "from-[#0055E5] to-[#026AFE]"
+            : "from-[#7996DE] to-[#82A8E9]")
         }
       >
         <div className="flex-1 flex justify-start items-center h-6">
@@ -94,7 +95,14 @@ export default function Program({
           </button>
         </div>
       </div>
-      {programModal()}
+      <div
+        className={
+          "h-full rounded-b-lg [&>*]:rounded-b-lg border-2 " +
+          (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
+        }
+      >
+        {programModal()}
+      </div>
     </ReactModal>
   );
 }
