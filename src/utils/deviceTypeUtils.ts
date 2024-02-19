@@ -26,7 +26,8 @@ export const getAttributesByDeviceType = ({
       disableResize: true,
       disableMove: true,
       // 48 refers to the height of the utility bar in px
-      initHeight: (window.innerHeight - 48) * 0.95,
+      // 32 refers to the height of the title bar of the program
+      initHeight: (window.innerHeight - 48 - 32) * 0.95,
       initWidth: window.innerWidth * 0.95,
     };
   } else {

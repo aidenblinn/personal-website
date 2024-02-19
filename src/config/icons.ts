@@ -13,8 +13,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
@@ -24,8 +24,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
@@ -35,8 +35,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
@@ -51,8 +51,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
@@ -62,8 +62,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
@@ -73,8 +73,8 @@ const icons: IconType[] = [
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 100,
-      minWidth: 100,
+      minHeight: 200,
+      minWidth: 200,
     },
   },
   {
