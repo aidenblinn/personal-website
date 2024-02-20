@@ -54,7 +54,7 @@ export default function Program({
   return (
     <ReactModal
       className={
-        `relative !z-[${zIndex}] rounded-b-lg !border-none ` +
+        `relative !z-[${zIndex + 2}] rounded-b-lg !border-none ` +
         (isMobileDevice
           ? " !absolute !top-[40px] !left-1/2 !transform !-translate-x-1/2"
           : "")
@@ -97,7 +97,7 @@ export default function Program({
       </div>
       <div
         className={
-          "h-full rounded-b-lg [&>*]:rounded-b-lg border-2 " +
+          "h-full rounded-b-lg [&>*]:rounded-b-lg border-[3px] " +
           (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
         }
       >
