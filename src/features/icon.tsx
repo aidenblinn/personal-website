@@ -5,11 +5,11 @@ import { addToTaskBar } from "./utilityBar/taskBar/taskBarSlice.ts";
 import { IconType } from "../../types.ts";
 
 export default function Icon({
-  children,
   icon,
+  isLink,
 }: {
-  children?: React.ReactElement;
   icon: IconType;
+  isLink: boolean;
 }) {
   const dispatch = useAppDispatch();
   const { name, type } = icon;
@@ -35,10 +35,19 @@ export default function Icon({
 
   return (
     <div
-      className="w-16 h-16 m-2 hover:cursor-pointer"
+      className="w-16 h-16 m-2 relative hover:cursor-pointer"
       id={`${name}-program`}
       onClick={() => handleIconClick(name, type)}
     >
+      {isLink ? (
+        <img
+          className="absolute -top-2 right-0 h-6"
+          src="icons/Link.ico"
+          alt=""
+        />
+      ) : (
+        <></>
+      )}
       <img className="mx-auto h-12" src={`icons/${name}.ico`} />
       <p className="w-fit mx-auto text-white [text-shadow:_2px_2px_1px_rgb(0,0,0)]">
         {name}
