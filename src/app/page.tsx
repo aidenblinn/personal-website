@@ -25,12 +25,29 @@ export default function Desktop() {
                 if (icon.type === "program") {
                   return (
                     <React.Fragment key={`${icon.name}-fragment`}>
-                      <Icon key={`${icon.name}-icon`} icon={icon}></Icon>
+                      <Icon
+                        key={`${icon.name}-icon`}
+                        icon={icon}
+                        isLink={false}
+                      ></Icon>
                       <Program key={`${icon.name}-program`} program={icon} />
                     </React.Fragment>
                   );
                 } else {
-                  return <Icon key={`${icon.name}-icon`} icon={icon} />;
+                  return (
+                    <React.Fragment key={`${icon.name}-fragment`}>
+                      <img
+                        className="absolute top-0 right-0 h-2"
+                        src="icons/Link.ico"
+                        alt=""
+                      />
+                      <Icon
+                        key={`${icon.name}-icon`}
+                        icon={icon}
+                        isLink={true}
+                      ></Icon>
+                    </React.Fragment>
+                  );
                 }
               })}
             </div>
