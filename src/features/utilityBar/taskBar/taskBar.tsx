@@ -10,9 +10,9 @@ export default function TaskBar(): React.ReactElement {
   const baseStyle: string =
     "flex flex-wrap justify-start content-center h-full w-[120px] px-2 text-white rounded hover:cursor-pointer";
   const inactiveStyle: string =
-    baseStyle + " bg-blue-400 shadow-[inset_0_2px_4px_0_rgb(255,255,255,0.3)]";
+    baseStyle + " bg-[#4C7EEC] shadow-[inset_0_2px_4px_0_rgb(255,255,255,0.3)]";
   const activeStyle: string =
-    baseStyle + " bg-blue-700 shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.3)]";
+    baseStyle + " bg-[#2A4FB2] shadow-[inset_0_2px_4px_0_rgb(0,0,0,0.3)]";
 
   return (
     <div className="flex-1 flex justify-start h-full p-1 gap-x-1">
