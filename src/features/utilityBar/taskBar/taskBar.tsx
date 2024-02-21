@@ -1,11 +1,10 @@
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { changeActiveProgram } from "../../activeProgramSlice";
-import { bumpModalToTop } from "../../programs/programSlice";
+import { useAppSelector, useFocusModal } from "../../../app/hooks";
 
 export default function TaskBar(): React.ReactElement {
+  const focusModal = useFocusModal();
+
   const programs = useAppSelector((state) => state.taskBar.programs);
   const activeProgram = useAppSelector((state) => state.active.activeProgram);
-  const dispatch = useAppDispatch();
 
   const baseStyle: string =
     "flex flex-wrap justify-start content-center h-full w-[120px] px-2 text-white rounded hover:cursor-pointer";
@@ -18,16 +17,22 @@ export default function TaskBar(): React.ReactElement {
     <div className="flex-1 flex justify-start h-full p-1 gap-x-1">
       {programs.map((name: string) => (
         <div
-          className={name === activeProgram ? activeStyle : inactiveStyle}
-          onClick={() => {
-            // Bump program modal to top when task bar item clicked
-            dispatch(bumpModalToTop(name));
-            // Set clicked program as active
-            dispatch(changeActiveProgram(name));
-          }}
           key={`${name}-taskbar`}
+          className={name === activeProgram ? activeStyle : inactiveStyle}
+          onClick={() => focusModal(name)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              focusModal(name);
+            }
+          }}
+          role="button"
+          tabIndex={0}
         >
-          <img className="h-6 mr-2" src={`icons/${name}.ico`} />
+          <img
+            className="h-6 mr-2"
+            src={`icons/${name}.ico`}
+            alt={`${name} program icon in task bar`}
+          />
           <p className="h-fit">{name}</p>
         </div>
       ))}
