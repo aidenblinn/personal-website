@@ -1,5 +1,9 @@
-import { useAppSelector, useAppDispatch } from "../../app/hooks.ts";
-import { bumpModalToTop, removeModalFromDesktop } from "./programSlice.ts";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useFocusModal,
+} from "../../app/hooks.ts";
+import { removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
 import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
 import { ProgramType } from "../../../types.ts";
@@ -23,6 +27,8 @@ export default function Program({
   program: ProgramType;
 }): React.ReactElement {
   const dispatch = useAppDispatch();
+  const focusModal = useFocusModal();
+
   const { programModal, name, size } = program;
   const { minHeight, minWidth, initHeight, initWidth } = size;
   const isActiveProgram =
@@ -66,10 +72,7 @@ export default function Program({
         initWidth,
         minHeight,
         minWidth,
-        onFocus: () => {
-          dispatch(bumpModalToTop(name));
-          dispatch(changeActiveProgram(name));
-        },
+        onFocus: () => focusModal(name),
       })}
     >
       {/* Title Bar */}
@@ -82,7 +85,11 @@ export default function Program({
         }
       >
         <div className="flex-1 flex justify-start items-center h-6">
-          <img className="h-6 mr-2" src={`icons/${name}.ico`} />
+          <img
+            className="h-6 mr-2"
+            src={`icons/${name}.ico`}
+            alt={`${name} program icon in title bar of program`}
+          />
           <p className="text-white">{name}</p>
         </div>
         {/* Button to close program */}
