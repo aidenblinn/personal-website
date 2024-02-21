@@ -38,6 +38,13 @@ export default function Icon({
       className="w-16 h-16 m-2 relative hover:cursor-pointer"
       id={`${name}-program`}
       onClick={() => handleIconClick(name, type)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleIconClick(name, type);
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
       {isLink ? (
         <img
@@ -48,7 +55,11 @@ export default function Icon({
       ) : (
         <></>
       )}
-      <img className="mx-auto h-12" src={`icons/${name}.ico`} />
+      <img
+        className="mx-auto h-12"
+        src={`icons/${name}.ico`}
+        alt={`${name} program icon on desktop`}
+      />
       <p className="w-fit mx-auto text-white [text-shadow:_2px_2px_1px_rgb(0,0,0)]">
         {name}
       </p>
