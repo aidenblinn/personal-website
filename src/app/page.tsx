@@ -14,7 +14,7 @@ export default function Desktop() {
       <main className="flex flex-col h-screen">
         <div
           id="desktop"
-          className="flex grow w-screen bg-bliss bg-center content-start p-2"
+          className="flex grow w-screen bg-bliss bg-cover bg-center content-start p-2"
         >
           {iconColumns.map((iconArray: IconType[], index: number) => (
             <div
