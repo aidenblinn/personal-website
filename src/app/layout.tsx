@@ -13,7 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"overflow-hidden overscroll-none select-none"}>
+      <body
+        className={
+          "overflow-hidden overscroll-none select-none cursor-xp-default"
+        }
+      >
         {children}
       </body>
     </html>

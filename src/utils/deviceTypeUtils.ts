@@ -1,8 +1,7 @@
+import { ProgramType } from "../../types.ts";
+
 type ProgramModalAttributes = {
-  initHeight: number;
-  initWidth: number;
-  minHeight: number;
-  minWidth: number;
+  size: ProgramType["size"];
   onFocus: () => void;
 };
 
@@ -15,10 +14,7 @@ export const isMobileDevice =
       );
 
 export const getAttributesByDeviceType = ({
-  initHeight,
-  initWidth,
-  minHeight,
-  minWidth,
+  size,
   onFocus,
 }: ProgramModalAttributes) => {
   if (isMobileDevice) {
@@ -32,10 +28,7 @@ export const getAttributesByDeviceType = ({
     };
   } else {
     return {
-      minHeight,
-      minWidth,
-      initHeight,
-      initWidth,
+      ...size,
       onFocus: () => onFocus(),
     };
   }
