@@ -20,8 +20,14 @@ const config: Config = {
       backgroundImage: {
         "bliss": "url('../../public/img/bliss-background.jpg')",
       },
-      colors: {
-        "bliss-blue": "#1a44d5",
+      cursor: {
+        "xp-default": "url('../../public/cursors/arrow.cur'), default",
+        "xp-help": "url('../../public/cursors/help.cur'), help",
+        "xp-link": "url('../../public/cursors/link.cur'), pointer",
+        "xp-move": "url('../../public/cursors/move.cur'), move",
+        "xp-no": "url('../../public/cursors/no.cur'), not-allowed",
+        "xp-size": "url('../../public/cursors/size.cur'), nwse-resize",
+        "xp-wait": "url('../../public/cursors/wait.cur'), wait",
       },
     },
   },
