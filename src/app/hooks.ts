@@ -1,8 +1,8 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import type { RootState, AppDispatch } from "./store";
-import { changeActiveProgram } from "../features/activeProgramSlice";
-import { bumpModalToTop } from "../features/programs/programSlice";
+import { changeActiveProgram } from "../features/desktop/activeProgramSlice";
+import { bumpModalToTop } from "../features/desktop/programs/programSlice";
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
