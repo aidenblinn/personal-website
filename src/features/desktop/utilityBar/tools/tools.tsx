@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { toggleMute, updateTime } from "./toolsSlice";
 
 export default function Tools(): React.ReactElement {
@@ -17,11 +17,11 @@ export default function Tools(): React.ReactElement {
 
   useEffect(() => {
     updateTimeEveryMinute(true);
-  });
+  }, []);
 
   return (
     <div className="relative flex items-center w-fit h-full px-2 bg-gradient-to-b from-[#1290E8] to-[#109EED]">
-      <div className="absolute h-full w-1 left-0 bg-gradient-to-r from-white/25"></div>
+      <div className="absolute h-full w-1 left-0 bg-gradient-to-r from-white/25" />
       <div
         onClick={() => dispatch(toggleMute())}
         onKeyDown={(e) => {
@@ -35,7 +35,7 @@ export default function Tools(): React.ReactElement {
         <img
           src={`icons/${muted ? "Muted" : "Unmuted"}.ico`}
           alt="Mute/unmute icon"
-          className={"hover:brightness-125 hover:cursor-pointer"}
+          className={"hover:brightness-125 hover:cursor-xp-pointer"}
         />
       </div>
 
