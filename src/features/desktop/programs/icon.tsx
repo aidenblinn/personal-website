@@ -1,8 +1,8 @@
-import { useAppSelector, useAppDispatch } from "../app/hooks.ts";
-import { bumpModalToTop, addModalToDesktop } from "./programs/programSlice.ts";
-import { changeActiveProgram } from "./activeProgramSlice.ts";
-import { addToTaskBar } from "./utilityBar/taskBar/taskBarSlice.ts";
-import { IconType } from "../../types.ts";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks.ts";
+import { bumpModalToTop, addModalToDesktop } from "./programSlice.ts";
+import { changeActiveProgram } from "../activeProgramSlice.ts";
+import { addToTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
+import { IconType } from "../../../../types.ts";
 
 export default function Icon({
   icon,
@@ -35,7 +35,7 @@ export default function Icon({
 
   return (
     <div
-      className="w-16 h-16 m-2 relative hover:cursor-pointer"
+      className="w-16 h-16 m-2 relative hover:cursor-xp-pointer"
       id={`${name}-program`}
       onClick={() => handleIconClick(name, type)}
       onKeyDown={(e) => {

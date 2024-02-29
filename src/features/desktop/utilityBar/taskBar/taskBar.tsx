@@ -1,4 +1,4 @@
-import { useAppSelector, useFocusModal } from "../../../app/hooks";
+import { useAppSelector, useFocusModal } from "../../../../app/hooks";
 
 export default function TaskBar(): React.ReactElement {
   const focusModal = useFocusModal();
@@ -7,7 +7,7 @@ export default function TaskBar(): React.ReactElement {
   const activeProgram = useAppSelector((state) => state.active.activeProgram);
 
   const baseStyle: string =
-    "flex flex-wrap justify-start content-center h-full w-[120px] px-2 text-white rounded hover:cursor-pointer";
+    "flex flex-wrap justify-start content-center h-full w-[120px] px-2 text-white rounded hover:cursor-xp-pointer";
   const inactiveStyle: string =
     baseStyle + " bg-[#4C7EEC] shadow-[inset_0_2px_4px_0_rgb(255,255,255,0.3)]";
   const activeStyle: string =

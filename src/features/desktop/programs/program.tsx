@@ -2,15 +2,15 @@ import {
   useAppSelector,
   useAppDispatch,
   useFocusModal,
-} from "../../app/hooks.ts";
+} from "../../../app/hooks.ts";
 import { removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
 import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
-import { ProgramType } from "../../../types.ts";
+import { ProgramType } from "../../../../types.ts";
 import {
   isMobileDevice,
   getAttributesByDeviceType,
-} from "../../utils/deviceTypeUtils.ts";
+} from "../../../utils/deviceTypeUtils.ts";
 
 // This component relies on  accessing the document object -- only render on client side
 import dynamic from "next/dynamic";
@@ -29,8 +29,7 @@ export default function Program({
   const dispatch = useAppDispatch();
   const focusModal = useFocusModal();
 
-  const { programModal, name, size } = program;
-  const { minHeight, minWidth, initHeight, initWidth } = size;
+  const { ProgramModal, name, size } = program;
   const isActiveProgram =
     useAppSelector((state) => state.active.activeProgram) === name;
   const zIndex = useAppSelector(
@@ -57,9 +56,15 @@ export default function Program({
     dispatch(removeFromTaskBar(name));
   };
 
+  const modalAttributes = getAttributesByDeviceType({
+    size,
+    onFocus: () => focusModal(name),
+  });
+
   return (
     <ReactModal
       className={
+        // offset z-index by 2 to account for z-indices of other page elements
         `relative !z-[${zIndex + 2}] rounded-b-lg !border-none ` +
         (isMobileDevice
           ? " !absolute !top-[40px] !left-1/2 !transform !-translate-x-1/2"
@@ -67,13 +72,7 @@ export default function Program({
       }
       isOpen={zIndex !== -1}
       disableKeystroke={true}
-      {...getAttributesByDeviceType({
-        initHeight,
-        initWidth,
-        minHeight,
-        minWidth,
-        onFocus: () => focusModal(name),
-      })}
+      {...modalAttributes}
     >
       {/* Title Bar */}
       <div
@@ -104,11 +103,11 @@ export default function Program({
       </div>
       <div
         className={
-          "h-full rounded-b-lg [&>*]:rounded-b-lg border-[3px] " +
+          "overflow-scroll h-full rounded-b-lg [&>*]:rounded-b-lg border-[3px] " +
           (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
         }
       >
-        {programModal()}
+        {ProgramModal()}
       </div>
     </ReactModal>
   );
