@@ -5,12 +5,14 @@
 export type ProgramType = {
   name: string;
   type: "program";
-  programModal: () => React.ReactElement;
+  // Revisit
+  ProgramModal: (...args: any[]) => React.ReactElement;
   size: {
     initHeight: number;
     initWidth: number;
-    minHeight: number;
-    minWidth: number;
+    minHeight?: number;
+    minWidth?: number;
+    disableResize?: boolean;
   };
   url?: never;
 };
@@ -23,7 +25,7 @@ type LinkType = {
   name: string;
   type: "link";
   url: string;
-  programModal?: never;
+  ProgramModal?: never;
   size?: never;
 };
 
