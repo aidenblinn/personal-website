@@ -4,18 +4,25 @@ import UtilityBar from "./utilityBar/utilityBar.tsx";
 import { iconColumns } from "../../config/icons.ts";
 import { IconType } from "../../../types.ts";
 import React from "react";
+import { useFocusModal } from "../../app/hooks.ts";
 
 export default function Desktop(): React.ReactElement {
+  const focusModal = useFocusModal();
+
   return (
     <main className="flex flex-col h-screen">
       <div
         id="desktop"
         className="flex grow w-screen bg-bliss bg-cover bg-center content-start p-2"
+        onClick={() => focusModal("")}
+        role="presentation"
       >
         {iconColumns.map((iconColumn: IconType[], index: number) => (
           <div
+            onClick={(e) => e.stopPropagation()}
             key={`column#${index}`}
-            className="w-fit h-fit grid grid-cols-1 gap-4"
+            className="w-fit h-fit grid grid-cols-1"
+            role="presentation"
           >
             {iconColumn.map((icon: IconType) => {
               if (icon.type === "program" || icon.type === "inprogress") {
