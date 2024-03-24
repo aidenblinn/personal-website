@@ -81,7 +81,7 @@ export default function Email() {
           name="content"
           value={formData.content}
           onChange={handleFormChange}
-          className="w-full flex-1 bg-white border border-gray-300 px-3 py-2"
+          className="w-full flex-1 bg-white border border-gray-300 px-3 py-2 resize-none"
           placeholder=""
         />
         <button
