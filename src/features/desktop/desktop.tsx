@@ -18,7 +18,7 @@ export default function Desktop(): React.ReactElement {
             className="w-fit h-fit grid grid-cols-1 gap-4"
           >
             {iconArray.map((icon: IconType) => {
-              if (icon.type === "program") {
+              if (icon.type === "program" || icon.type === "inprogress") {
                 return (
                   <React.Fragment key={`${icon.name}-fragment`}>
                     <Icon
@@ -34,7 +34,7 @@ export default function Desktop(): React.ReactElement {
                   <React.Fragment key={`${icon.name}-fragment`}>
                     <img
                       className="absolute top-0 right-0 h-2"
-                      src="icons/Link.ico"
+                      src="img/programIcons/Link.ico"
                       alt=""
                     />
                     <Icon

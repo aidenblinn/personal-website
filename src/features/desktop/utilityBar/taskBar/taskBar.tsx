@@ -30,7 +30,7 @@ export default function TaskBar(): React.ReactElement {
         >
           <img
             className="h-6 mr-2"
-            src={`icons/${name}.ico`}
+            src={`img/programIcons/${name}.ico`}
             alt={`${name} program icon in task bar`}
           />
           <p className="h-fit">{name}</p>

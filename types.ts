@@ -4,7 +4,7 @@
  */
 export type ProgramType = {
   name: string;
-  type: "program";
+  type: "program" | "inprogress";
   // Revisit
   ProgramModal: (...args: any[]) => React.ReactElement;
   size: {
