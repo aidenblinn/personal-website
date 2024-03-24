@@ -9,7 +9,7 @@
   background: linear-gradient(to left, #00000080, transparent);
 }
 
-/* Custom font */
+/* Custom font -- set as default */
 
 @font-face {
   font-family: windows-xp-tahoma;
@@ -17,7 +17,7 @@
   size-adjust: 150%;
 }
 
-p {
+html {
   font-family: windows-xp-tahoma;
 }
 
