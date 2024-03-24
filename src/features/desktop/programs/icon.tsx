@@ -17,7 +17,7 @@ export default function Icon({
   const taskBarPrograms = useAppSelector((state) => state.taskBar.programs);
 
   const handleIconClick = (name: string, type: string): void => {
-    if (type === "program") {
+    if (type === "program" || type === "inprogress") {
       dispatch(changeActiveProgram(name));
       if (!taskBarPrograms.includes(name)) {
         // Only open program if not already open on desktop
@@ -49,7 +49,16 @@ export default function Icon({
       {isLink ? (
         <img
           className="absolute -top-2 right-0 h-6"
-          src="icons/Link.ico"
+          src="img/programIcons/Link.ico"
+          alt=""
+        />
+      ) : (
+        <></>
+      )}
+      {type === "inprogress" ? (
+        <img
+          className="absolute -top-2 right-0 h-6"
+          src="img/programIcons/InProgress.ico"
           alt=""
         />
       ) : (
@@ -57,7 +66,7 @@ export default function Icon({
       )}
       <img
         className="mx-auto h-12"
-        src={`icons/${name}.ico`}
+        src={`img/programIcons/${name}.ico`}
         alt={`${name} program icon on desktop`}
       />
       <p className="w-fit mx-auto text-white [text-shadow:_2px_2px_1px_rgb(0,0,0)]">

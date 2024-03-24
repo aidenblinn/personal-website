@@ -7,6 +7,7 @@ export default function Desktop() {
   return (
     <Provider store={store}>
       <Computer />
+      {/* <SnakeGame initHeight={400} initWidth={400} /> */}
     </Provider>
   );
 }

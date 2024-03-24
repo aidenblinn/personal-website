@@ -86,7 +86,7 @@ export default function Program({
         <div className="flex-1 flex justify-start items-center h-6">
           <img
             className="h-6 mr-2"
-            src={`icons/${name}.ico`}
+            src={`img/programIcons/${name}.ico`}
             alt={`${name} program icon in title bar of program`}
           />
           <p className="text-white">{name}</p>
