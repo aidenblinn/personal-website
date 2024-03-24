@@ -35,7 +35,7 @@ export default function StartMenu(): React.ReactElement {
         {startMenuItems.map(({ name, url }) => (
           <div
             className="flex items-center p-2 gap-2 hover:bg-[#026AFE]/25"
-            id={`${name}-program`}
+            key={`${name}-program`}
             onClick={() => handleStartMenuClick(url)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
