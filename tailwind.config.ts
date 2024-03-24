@@ -18,7 +18,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "bliss": "url('../../public/img/bliss-background.jpg')",
+        "bliss": "url('../../public/img/desktopAssets/bliss-background.jpg')",
       },
       cursor: {
         "xp-default": "url('../../public/cursors/arrow.cur'), default",

@@ -1,5 +1,6 @@
 import Placeholder from "../features/desktop/programs/placeholder/placeholder.tsx";
-import Snake from "../features/desktop/programs/snake/snake.tsx";
+import SnakeGame from "../features/desktop/programs/snake/game.tsx";
+import Email from "../features/desktop/programs/email/email.tsx";
 
 import { IconType } from "../../types.ts";
 
@@ -11,17 +12,17 @@ const icons: IconType[] = [
   {
     name: "Email",
     type: "program",
-    ProgramModal: Placeholder,
+    ProgramModal: Email,
     size: {
-      initHeight: 300,
+      initHeight: 400,
       initWidth: 400,
-      minHeight: 200,
-      minWidth: 200,
+      minHeight: 360,
+      minWidth: 320,
     },
   },
   {
     name: "Snake",
-    type: "program",
+    type: "inprogress",
     ProgramModal: Placeholder,
     size: {
       initHeight: 400,
@@ -31,7 +32,7 @@ const icons: IconType[] = [
   },
   {
     name: "Folder",
-    type: "program",
+    type: "inprogress",
     ProgramModal: Placeholder,
     size: {
       initHeight: 300,
@@ -47,7 +48,7 @@ const icons: IconType[] = [
   },
   {
     name: "Music",
-    type: "program",
+    type: "inprogress",
     ProgramModal: Placeholder,
     size: {
       initHeight: 300,
@@ -58,7 +59,7 @@ const icons: IconType[] = [
   },
   {
     name: "Paint",
-    type: "program",
+    type: "inprogress",
     ProgramModal: Placeholder,
     size: {
       initHeight: 300,
@@ -69,7 +70,7 @@ const icons: IconType[] = [
   },
   {
     name: "Trash",
-    type: "program",
+    type: "inprogress",
     ProgramModal: Placeholder,
     size: {
       initHeight: 300,
