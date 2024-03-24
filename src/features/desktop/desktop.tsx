@@ -12,12 +12,12 @@ export default function Desktop(): React.ReactElement {
         id="desktop"
         className="flex grow w-screen bg-bliss bg-cover bg-center content-start p-2"
       >
-        {iconColumns.map((iconArray: IconType[], index: number) => (
+        {iconColumns.map((iconColumn: IconType[], index: number) => (
           <div
             key={`column#${index}`}
             className="w-fit h-fit grid grid-cols-1 gap-4"
           >
-            {iconArray.map((icon: IconType) => {
+            {iconColumn.map((icon: IconType) => {
               if (icon.type === "program" || icon.type === "inprogress") {
                 return (
                   <React.Fragment key={`${icon.name}-fragment`}>

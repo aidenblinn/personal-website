@@ -64,7 +64,7 @@ export default function Email() {
         </div>
         <div className="flex items-center space-x-2">
           <label htmlFor="subject" className="w-16 text-sm">
-            Subject
+            Subject:
           </label>
           <input
             type="text"
