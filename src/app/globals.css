@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom CSS */
+/* Set Default Sizes for HTML tags */
 
-.gradient-border {
-  border: none;
-  background: linear-gradient(to left, #00000080, transparent);
+h1 {
+  @apply text-2xl;
 }
 
-/* Custom font -- set as default */
+/* Load custom font and set as default */
 
 @font-face {
   font-family: windows-xp-tahoma;
@@ -19,6 +18,13 @@
 
 html {
   font-family: windows-xp-tahoma;
+}
+
+/* Non-Tailwind Custom CSS */
+
+.gradient-border {
+  border: none;
+  background: linear-gradient(to left, #00000080, transparent);
 }
 
 /* Override CSS packaged with 'react-modal-resizable-draggable' */
