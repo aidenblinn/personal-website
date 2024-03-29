@@ -14,6 +14,10 @@ const config: Config = {
     ...Array(12)
       .fill(0)
       .map((_, index) => `!z-[${index}]`),
+    ...["yellow", "blue", "red", "green"].reduce((prev: string[], cur) => {
+      prev.push(`bg-${cur}-500`, `bg-${cur}-600`);
+      return prev;
+    }, []),
   ],
   theme: {
     extend: {
