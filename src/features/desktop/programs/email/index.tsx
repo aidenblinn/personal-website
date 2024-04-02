@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAppSelector } from "@/app/hooks";
 
 type EmailData = {
   from: string;
@@ -14,6 +15,7 @@ export default function Email() {
     content: "",
     sendStatus: "Unsent",
   });
+  const muted = useAppSelector((state) => state.tools.muted);
 
   // Update state of email content when form edited
   const handleFormChange = (
@@ -56,7 +58,16 @@ export default function Email() {
 
     setEmailData(newEmailData);
 
-    // Set timeout to
+    // Play success / failure sound if computer unmuted
+    if (!muted) {
+      const notificationSound =
+        sendEmailResponse.status === 200
+          ? new Audio("sounds/tada.mp3")
+          : new Audio("sounds/fail.mp3");
+      notificationSound.play();
+    }
+
+    // Set timeout to reset submit button after success/failure indicated
     setTimeout(
       () =>
         setEmailData({

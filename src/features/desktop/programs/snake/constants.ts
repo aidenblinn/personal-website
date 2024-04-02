@@ -1,5 +1,7 @@
 export const SPEEDS = {
-  SLOW: 1000,
-  MEDIUM: 700,
-  FAST: 500,
+  "0": 900, // Slow
+  "1": 600, // Medium
+  "2": 400, // Fast
 };
+
+export const GRIDSIZE = 15;
