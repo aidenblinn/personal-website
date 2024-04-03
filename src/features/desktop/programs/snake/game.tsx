@@ -10,6 +10,7 @@ import {
 import Apple from "./apple";
 import Board from "./board";
 import { useAppSelector } from "@/app/hooks";
+import { isMobileDevice } from "@/utils/deviceTypeUtils";
 
 export default function Game({
   speed,
@@ -38,7 +39,7 @@ export default function Game({
 
   useEffect(() => {
     // Listen for direction change when game started
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", onKeyDown);
 
     // Move snake on interval according to selected speed
     intervalRef.current = setInterval(
@@ -49,7 +50,7 @@ export default function Game({
       // Clear interval causing snake to move
       clearInterval(intervalRef.current as NodeJS.Timeout);
       // Clean up event listener when game over
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, []);
 
@@ -66,8 +67,8 @@ export default function Game({
   }, [apple]);
 
   // Change snake direction when arrow key pressed
-  const handleKeyDown = (e: KeyboardEvent) => {
-    switch (e.code) {
+  const handleKeyDown = (code: string) => {
+    switch (code) {
       case "ArrowLeft":
         if (directionRef.current !== "right") {
           return setDirection("left");
@@ -86,6 +87,7 @@ export default function Game({
         }
     }
   };
+  const onKeyDown = (e: KeyboardEvent) => handleKeyDown(e.code);
 
   const moveSnake = (snake: SnakeType, direction: SnakeDirection) => {
     /* Move head based on direction */
@@ -168,18 +170,54 @@ export default function Game({
     setGameActive(false);
   };
 
+  const buttonProps = " bg-slate-400 rounded p-2 active:brightness-125";
+
   return (
-    <div
-      className="relative grid"
-      style={{
-        gridTemplateRows: `repeat(${GRIDSIZE}, 1fr)`,
-        gridTemplateColumns: `repeat(${GRIDSIZE}, 1fr)`,
-        height: `${document.getElementById("snake-game")?.offsetWidth}px`,
-      }}
-    >
-      <Board />
-      <Snake snake={snake} />
-      <Apple apple={apple} />
-    </div>
+    <React.Fragment>
+      <div
+        className="relative grid"
+        style={{
+          gridTemplateRows: `repeat(${GRIDSIZE}, 1fr)`,
+          gridTemplateColumns: `repeat(${GRIDSIZE}, 1fr)`,
+          height: `${document.getElementById("snake-game")?.offsetWidth}px`,
+        }}
+      >
+        <Board />
+        <Snake snake={snake} />
+        <Apple apple={apple} />
+      </div>
+      {isMobileDevice && (
+        <div className="w-full grid grid-rows-2 grid-cols-3 gap-2 p-2">
+          {/* Up */}
+          <button
+            onClick={() => handleKeyDown("ArrowUp")}
+            className={"col-start-2" + buttonProps}
+          >
+            ↑
+          </button>
+          {/* Left */}
+          <button
+            onClick={() => handleKeyDown("ArrowLeft")}
+            className={"row-start-2 col-start-1" + buttonProps}
+          >
+            ←
+          </button>
+          {/* Down */}
+          <button
+            onClick={() => handleKeyDown("ArrowDown")}
+            className={"row-start-2 col-start-2" + buttonProps}
+          >
+            ↓
+          </button>
+          {/* Right */}
+          <button
+            onClick={() => handleKeyDown("ArrowRight")}
+            className={"row-start-2 col-start-3" + buttonProps}
+          >
+            →
+          </button>
+        </div>
+      )}
+    </React.Fragment>
   );
 }
