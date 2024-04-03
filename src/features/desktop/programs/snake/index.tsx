@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import StartMenu from "./startMenu";
 import Game from "./game";
-import { GRIDSIZE } from "./constants";
 import { GameSpeed } from "./types";
 
 export default function SnakeProgram(): React.ReactElement {
