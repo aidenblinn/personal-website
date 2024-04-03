@@ -2,20 +2,18 @@ import { PositionedElement } from "./types";
 
 export default function Apple({
   apple,
-  boxWidth,
 }: {
   apple: PositionedElement;
-  boxWidth: number;
 }): React.ReactElement {
   return (
     <img
       style={{
-        top: `${apple.y * boxWidth}px`,
-        left: `${apple.x * boxWidth}px`,
-        height: `${boxWidth - 2}px`,
+        gridArea: `${apple.y + 1} / ${apple.x + 1} / ${apple.y + 1} / ${
+          apple.x + 1
+        }`,
         zIndex: 10,
       }}
-      className="absolute"
+      className="absolute row-span-1 col-span-1"
       src="img/snake/Apple.png"
       alt="Apple"
     />
