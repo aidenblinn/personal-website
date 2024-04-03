@@ -9,14 +9,13 @@ import {
 } from "./types";
 import Apple from "./apple";
 import Board from "./board";
+import { useAppSelector } from "@/app/hooks";
 
 export default function Game({
-  boxWidth,
   speed,
   setGameActive,
   setScore,
 }: {
-  boxWidth: number;
   speed: GameSpeed;
   setGameActive: React.Dispatch<React.SetStateAction<boolean>>;
   setScore: React.Dispatch<React.SetStateAction<number>>;
@@ -33,6 +32,9 @@ export default function Game({
   const directionRef = useRef<SnakeDirection>(direction);
   const appleRef = useRef<PositionedElement>(apple);
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
+
+  const muted = useAppSelector((state) => state.tools.muted);
+  const appleSound = new Audio("sounds/info.mp3");
 
   useEffect(() => {
     // Listen for direction change when game started
@@ -86,13 +88,10 @@ export default function Game({
   };
 
   const moveSnake = (snake: SnakeType, direction: SnakeDirection) => {
-    const headX = snake[0]["x"];
-    const headY = snake[0]["y"];
-
     /* Move head based on direction */
     const newHead = {
-      x: headX,
-      y: headY,
+      x: snake[0]["x"],
+      y: snake[0]["y"],
       direction,
     };
 
@@ -109,7 +108,7 @@ export default function Game({
     /* Check if player has lost game */
     snake.forEach(({ x, y }, index) => {
       // Head collision with body
-      if (index !== 0 && x == headX && y === headY) {
+      if (index !== 0 && x == newHead.x && y === newHead.y) {
         return endGame();
       }
     });
@@ -142,6 +141,11 @@ export default function Game({
   };
 
   const moveApple = (): void => {
+    // Play sound
+    if (!muted) {
+      appleSound.play();
+    }
+
     // Generate new apple position that does not overlap with snake
     let newX = 0,
       newY = 0;
@@ -156,15 +160,26 @@ export default function Game({
   };
 
   const endGame = () => {
+    if (!muted) {
+      const loseSound = new Audio("sounds/fail.mp3");
+      loseSound.play();
+    }
     setScore(0);
     setGameActive(false);
   };
 
   return (
-    <React.Fragment>
-      <Board boxWidth={boxWidth} />
-      <Snake boxWidth={boxWidth} snake={snake} />
-      <Apple boxWidth={boxWidth} apple={apple} />
-    </React.Fragment>
+    <div
+      className="relative grid"
+      style={{
+        gridTemplateRows: `repeat(${GRIDSIZE}, 1fr)`,
+        gridTemplateColumns: `repeat(${GRIDSIZE}, 1fr)`,
+        height: `${document.getElementById("snake-game")?.offsetWidth}px`,
+      }}
+    >
+      <Board />
+      <Snake snake={snake} />
+      <Apple apple={apple} />
+    </div>
   );
 }

@@ -4,21 +4,13 @@ import Game from "./game";
 import { GRIDSIZE } from "./constants";
 import { GameSpeed } from "./types";
 
-export default function SnakeProgram({
-  initHeight,
-  initWidth,
-}: {
-  initHeight: number;
-  initWidth: number;
-}): React.ReactElement {
+export default function SnakeProgram(): React.ReactElement {
   const [speed, setSpeed] = useState<GameSpeed>("1"); // Default to medium speed
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [gameActive, setGameActive] = useState(false);
 
   const scoreRef = useRef(score);
-
-  const boxWidth = initWidth / GRIDSIZE;
 
   useEffect(() => {
     scoreRef.current = score;
@@ -28,10 +20,9 @@ export default function SnakeProgram({
   }, [score]);
 
   return (
-    <div
-      className="relative m-auto bg-slate-100"
-      id="asdfasdf"
-      style={{ height: `${initHeight}px`, width: `${initWidth}px` }}
+    <main
+      id="snake-game"
+      className="relative m-auto bg-slate-800 w-full h-full"
     >
       <StartMenu
         gameActive={gameActive}
@@ -41,15 +32,8 @@ export default function SnakeProgram({
         score={score}
       />
       {gameActive && (
-        <div className="relative">
-          <Game
-            boxWidth={boxWidth}
-            setGameActive={setGameActive}
-            speed={speed}
-            setScore={setScore}
-          />
-        </div>
+        <Game setGameActive={setGameActive} speed={speed} setScore={setScore} />
       )}
-    </div>
+    </main>
   );
 }
