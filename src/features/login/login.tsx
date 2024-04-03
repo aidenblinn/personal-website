@@ -12,7 +12,7 @@ export default function Login(): React.ReactElement {
   };
 
   return (
-    <main className="flex flex-col z-30 fixed top-0 left-0 w-screen h-screen">
+    <main className="flex flex-col z-30 fixed top-0 left-0 w-screen h-dvh">
       <div className="h-16 md:h-24 w-full bg-[#00309C]" />
       <div className="flex flex-col md:flex-row items-center justify-end grow w-full bg-[#5A7EDC]">
         <div className="pb-4 md:pb-0 md:pr-4 md:w-1/2 md:text-right align-baseline">

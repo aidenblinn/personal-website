@@ -10,7 +10,7 @@ export default function Desktop(): React.ReactElement {
   const focusModal = useFocusModal();
 
   return (
-    <main className="flex flex-col h-screen">
+    <main className="flex flex-col h-dvh">
       <div
         id="desktop"
         className="flex grow w-screen bg-bliss bg-cover bg-center content-start p-2"
