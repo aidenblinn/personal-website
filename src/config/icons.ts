@@ -1,6 +1,6 @@
 import Placeholder from "../features/desktop/programs/placeholder/placeholder.tsx";
-import SnakeGame from "../features/desktop/programs/snake/game.tsx";
-import Email from "../features/desktop/programs/email/email.tsx";
+import Snake from "../features/desktop/programs/snake/index.tsx";
+import Email from "../features/desktop/programs/email/index.tsx";
 
 import { IconType } from "../../types.ts";
 
@@ -22,10 +22,10 @@ const icons: IconType[] = [
   },
   {
     name: "Snake",
-    type: "inprogress",
-    ProgramModal: Placeholder,
+    type: "program",
+    ProgramModal: Snake,
     size: {
-      initHeight: 400,
+      initHeight: 440,
       initWidth: 400,
       disableResize: true,
     },
