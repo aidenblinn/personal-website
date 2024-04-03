@@ -1,39 +1,55 @@
-export default function StartMenu(): React.ReactElement {
+import React from "react";
+
+export default function StartMenu({
+  gameActive,
+  setGameActive,
+  setSpeed,
+  highScore,
+  score,
+}: {
+  gameActive: boolean;
+  setGameActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setSpeed: React.Dispatch<React.SetStateAction<"0" | "1" | "2">>;
+  highScore: number;
+  score: number;
+}): React.ReactElement {
   return (
-    <div className="flex items-center justify-center z-10 w-full h-full bg-slate-500/50">
-      <div className="flex flex-col items-center justify-center gap-4 w-2/3">
-        <div className="flex justify-center gap-2 bg-blue-200 rounded-md w-full">
-          {[
-            ["Apple", "0"],
-            ["Trophy", 0],
-          ].map(([iconName, score]) => {
-            return (
-              <div key={`startMenu${iconName}`} className="text-center">
-                <img className="h-8" src={`img/snake/${iconName}.png`} alt="" />
-                <p>{score}</p>
-              </div>
-            );
-          })}
-        </div>
-        <button className="bg-blue-400 rounded-md w-full hover:brightness-110">
-          <p>Play</p>
-        </button>
-        <div className="rounded-lg p-4 shadow-lg">
-          <div className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Slow</span>
-              <span className="text-sm">Fast</span>
-            </div>
-            <input
-              className="w-full h-4 rounded-full appearance-none bg-gray-300"
-              type="range"
-              min={0}
-              max={2}
-              step={1}
-            />
-          </div>
-        </div>
+    <div className="bg-green-700 flex justify-between h-10 p-2 gap-2">
+      <div className="flex items-center gap-1">
+        {[
+          ["Apple", score],
+          ["Trophy", highScore],
+        ].map(([iconName, value]) => {
+          return (
+            <React.Fragment key={iconName}>
+              <img className="h-6" src={`img/snake/${iconName}.png`} alt="" />
+              <p className="text-white">{value}</p>
+            </React.Fragment>
+          );
+        })}
       </div>
+      <div className="flex items-center gap-1">
+        <p className="text-white">Slow</p>
+        <input
+          className="h-4 w-24 rounded-full appearance-none bg-gray-300"
+          type="range"
+          min={0}
+          max={2}
+          step={1}
+          disabled={gameActive ? true : false}
+          onChange={(e) => setSpeed(e.target.value as "0" | "1" | "2")}
+        />
+        <p className="text-white">Fast</p>
+      </div>
+      <button
+        onClick={() => setGameActive(true)}
+        className={`${
+          gameActive ? "bg-slate-400" : "bg-green-400"
+        } rounded-md px-4 hover:brightness-110`}
+        disabled={gameActive ? true : false}
+      >
+        Start
+      </button>
     </div>
   );
 }
