@@ -37,7 +37,6 @@ export default function Desktop(): React.ReactElement {
       >
         {iconColumns.map((iconColumn: IconType[], index: number) => (
           <div
-            // onClick={(e) => e.stopPropagation()}
             key={`column#${index}`}
             className="w-fit h-fit grid grid-cols-1"
             role="presentation"

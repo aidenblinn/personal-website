@@ -62,9 +62,11 @@ export default function Program({
     // Prevent click from triggering onFocus call in parent element
     event.stopPropagation();
 
-    // Play click sound
-    const clickSound = new Audio("sounds/click.mp3");
-    clickSound.play();
+    // Play click sound if computer not muted
+    if (!useAppSelector((state) => state.tools.muted)) {
+      const clickSound = new Audio("sounds/click.mp3");
+      clickSound.play();
+    }
 
     // Reset active program if active program is being closed
     if (isActiveProgram) {
