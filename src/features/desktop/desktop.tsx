@@ -63,11 +63,6 @@ export default function Desktop(): React.ReactElement {
               } else {
                 return (
                   <React.Fragment key={`${icon.name}-fragment`}>
-                    <img
-                      className="absolute top-0 right-0 h-2"
-                      src="img/programIcons/Link.ico"
-                      alt=""
-                    />
                     <Icon
                       key={`${icon.name}-icon`}
                       icon={icon}
