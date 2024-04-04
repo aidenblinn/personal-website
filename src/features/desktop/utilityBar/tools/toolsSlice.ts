@@ -28,7 +28,11 @@ export const toolsSlice = createSlice({
   initialState,
   reducers: {
     toggleMute: (state) => {
-      state.muted = !state.muted;
+      if (typeof window !== "undefined" && !window.Audio) {
+        state.muted = true;
+      } else {
+        state.muted = !state.muted;
+      }
     },
     updateTime: (state) => {
       state.time = getTime();

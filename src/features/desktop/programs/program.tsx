@@ -30,8 +30,10 @@ export default function Program({
   const onFocus = () => focusModal(name);
 
   const { ProgramModal, name, size } = program;
+
   const isActiveProgram =
     useAppSelector((state) => state.active.activeProgram) === name;
+  const muted = useAppSelector((state) => state.tools.muted);
 
   /** Add mousedown listener to draggable area of title bar
    * so that program focuses when bar first dragged
@@ -63,7 +65,7 @@ export default function Program({
     event.stopPropagation();
 
     // Play click sound if computer not muted
-    if (!useAppSelector((state) => state.tools.muted)) {
+    if (!muted) {
       const clickSound = new Audio("sounds/click.mp3");
       clickSound.play();
     }
