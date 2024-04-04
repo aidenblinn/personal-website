@@ -34,7 +34,7 @@ export default function Game({
   const appleRef = useRef<PositionedElement>(apple);
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
 
-  const muted = useAppSelector((state) => state.tools.muted);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
   const appleSound =
     typeof window !== "undefined" && window.Audio
       ? new Audio("sounds/info.mp3")

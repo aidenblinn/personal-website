@@ -33,7 +33,7 @@ export default function Program({
 
   const isActiveProgram =
     useAppSelector((state) => state.active.activeProgram) === name;
-  const muted = useAppSelector((state) => state.tools.muted);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
 
   /** Add mousedown listener to draggable area of title bar
    * so that program focuses when bar first dragged

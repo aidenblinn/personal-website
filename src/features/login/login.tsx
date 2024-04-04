@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { logIn } from "./loginSlice.tsx";
-import { toggleMute } from "../desktop/utilityBar/tools/toolsSlice.ts";
+import { toggleMute } from "../desktop/utilityBar/utilityBarSlice.ts";
 
 export default function Login(): React.ReactElement {
   const dispatch = useAppDispatch();
 
-  const muted = useAppSelector((state) => state.tools.muted);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
 
   const handleLogin = () => {
     dispatch(logIn());

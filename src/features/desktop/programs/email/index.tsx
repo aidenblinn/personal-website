@@ -15,7 +15,7 @@ export default function Email() {
     content: "",
     sendStatus: "Unsent",
   });
-  const muted = useAppSelector((state) => state.tools.muted);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
 
   // Update state of email content when form edited
   const handleFormChange = (

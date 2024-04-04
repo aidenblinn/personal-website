@@ -5,7 +5,7 @@ import Desktop from "./desktop/desktop.tsx";
 
 export default function Computer(): React.ReactElement {
   const loggedIn = useAppSelector((state) => state.login.loggedIn);
-  const muted = useAppSelector((state) => state.tools.muted);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {

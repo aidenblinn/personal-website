@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import { toggleMute, updateTime } from "./toolsSlice";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { toggleMute, updateTime } from "../utilityBarSlice";
 
 export default function Tools(): React.ReactElement {
-  const time = useAppSelector((state) => state.tools.time);
-  const muted = useAppSelector((state) => state.tools.muted);
+  const time = useAppSelector((state) => state.utilityBar.time);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
   const dispatch = useAppDispatch();
 
   const updateTimeEveryMinute = (firstCall?: boolean) => {
