@@ -1,8 +1,5 @@
-import {
-  useAppSelector,
-  useAppDispatch,
-  useFocusModal,
-} from "../../../app/hooks.ts";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch, useFocusModal } from "@/app/hooks.ts";
 import { removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
 import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
@@ -23,18 +20,35 @@ const ReactModal = dynamic(
 
 export default function Program({
   program,
+  zIndex,
 }: {
   program: ProgramType;
+  zIndex: number;
 }): React.ReactElement {
   const dispatch = useAppDispatch();
   const focusModal = useFocusModal();
+  const onFocus = () => focusModal(name);
 
   const { ProgramModal, name, size } = program;
   const isActiveProgram =
     useAppSelector((state) => state.active.activeProgram) === name;
-  const zIndex = useAppSelector(
-    (state) => state.programs.modalHierarchy
-  ).indexOf(name);
+
+  /** Add mousedown listener to draggable area of title bar
+   * so that program focuses when bar first dragged
+   */
+  useEffect(() => {
+    // Only add listener if program present
+    if (zIndex > -1) {
+      const titleBar = document.querySelector(`#${name}-title-bar`);
+      const draggableArea = titleBar?.nextSibling?.nextSibling;
+      if (
+        draggableArea instanceof HTMLElement &&
+        draggableArea.onmousedown === null
+      ) {
+        draggableArea.onmousedown = onFocus;
+      }
+    }
+  }, [zIndex]);
 
   /**
    *
@@ -58,7 +72,7 @@ export default function Program({
 
   const modalAttributes = getAttributesByDeviceType({
     size,
-    onFocus: () => focusModal(name),
+    onFocus,
   });
 
   return (
@@ -82,6 +96,8 @@ export default function Program({
             ? "from-[#0055E5] to-[#026AFE]"
             : "from-[#7996DE] to-[#82A8E9]")
         }
+        id={`${name}-title-bar`}
+        onDragStart={() => console.log("hello")}
       >
         <div className="flex-1 flex justify-start items-center h-6">
           <img

@@ -4,9 +4,12 @@ import UtilityBar from "./utilityBar/utilityBar.tsx";
 import { iconColumns } from "../../config/icons.ts";
 import { IconType } from "../../../types.ts";
 import React from "react";
-import { useFocusModal } from "../../app/hooks.ts";
+import { useAppSelector, useFocusModal } from "../../app/hooks.ts";
 
 export default function Desktop(): React.ReactElement {
+  const modalHierarchy = useAppSelector(
+    (state) => state.programs.modalHierarchy
+  );
   const focusModal = useFocusModal();
 
   return (
@@ -33,7 +36,11 @@ export default function Desktop(): React.ReactElement {
                       icon={icon}
                       isLink={false}
                     ></Icon>
-                    <Program key={`${icon.name}-program`} program={icon} />
+                    <Program
+                      key={`${icon.name}-program`}
+                      program={icon}
+                      zIndex={modalHierarchy.indexOf(icon.name)}
+                    />
                   </React.Fragment>
                 );
               } else {
