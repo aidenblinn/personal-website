@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { openStartMenu, closeStartMenu } from "../utilityBarSlice";
 
 export default function StartMenu(): React.ReactElement {
-  const [menuVisible, setMenuVisibility] = useState(false);
+  const startMenuOpen = useAppSelector(
+    (state) => state.utilityBar.startMenuOpen
+  );
+  const dispatch = useAppDispatch();
 
   const startMenuItems = [
     { name: "Next", url: "https://nextjs.org/" },
@@ -10,9 +14,18 @@ export default function StartMenu(): React.ReactElement {
     { name: "Tailwind", url: "https://tailwindcss.com/" },
   ];
 
-  const toggleStartMenu = () => setMenuVisibility(!menuVisible);
+  const toggleStartMenu = (
+    e: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+  ) => {
+    console.log(e.target);
+    if (startMenuOpen) {
+      dispatch(closeStartMenu());
+    } else {
+      dispatch(openStartMenu());
+    }
+  };
 
-  const handleStartMenuClick = (url: string) => {
+  const handleMenuItemClick = (url: string) => {
     window.open(url, "_blank");
   };
 
@@ -21,7 +34,7 @@ export default function StartMenu(): React.ReactElement {
       <div
         className={
           "fixed bottom-12 left-0 bg-white rounded-t-lg border-[3px] border-[#026AFE]" +
-          (menuVisible ? " visible" : " invisible")
+          (startMenuOpen ? " visible" : " invisible")
         }
       >
         <div className="flex items-center p-1 gap-2 bg-[#026AFE]">
@@ -36,10 +49,10 @@ export default function StartMenu(): React.ReactElement {
           <div
             className="flex items-center p-2 gap-2 hover:bg-[#026AFE]/25"
             key={`${name}-program`}
-            onClick={() => handleStartMenuClick(url)}
+            onClick={() => handleMenuItemClick(url)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleStartMenuClick(url);
+                handleMenuItemClick(url);
               }
             }}
             role="button"
@@ -58,7 +71,7 @@ export default function StartMenu(): React.ReactElement {
         className="relative flex items-center justify-center gap-2 w-fit h-full bg-green-500 hover:brightness-110 hover:cursor-xp-pointer rounded-r-lg"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            toggleStartMenu;
+            toggleStartMenu(e);
           }
         }}
         onClick={toggleStartMenu}
