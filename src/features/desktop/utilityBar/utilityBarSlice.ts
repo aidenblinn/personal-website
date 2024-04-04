@@ -18,13 +18,15 @@ const getTime = () => {
 const initialState: {
   muted: boolean;
   time: string;
+  startMenuOpen: boolean;
 } = {
   muted: false,
   time: getTime(),
+  startMenuOpen: false,
 };
 
-export const toolsSlice = createSlice({
-  name: "tools",
+export const utilityBarSlice = createSlice({
+  name: "utilityBar",
   initialState,
   reducers: {
     toggleMute: (state) => {
@@ -37,9 +39,16 @@ export const toolsSlice = createSlice({
     updateTime: (state) => {
       state.time = getTime();
     },
+    openStartMenu: (state) => {
+      state.startMenuOpen = true;
+    },
+    closeStartMenu: (state) => {
+      state.startMenuOpen = false;
+    },
   },
 });
 
-export const { toggleMute, updateTime } = toolsSlice.actions;
+export const { toggleMute, updateTime, openStartMenu, closeStartMenu } =
+  utilityBarSlice.actions;
 
-export default toolsSlice.reducer;
+export default utilityBarSlice.reducer;
