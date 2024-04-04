@@ -61,6 +61,11 @@ export default function Program({
   ): void => {
     // Prevent click from triggering onFocus call in parent element
     event.stopPropagation();
+
+    // Play click sound
+    const clickSound = new Audio("sounds/click.mp3");
+    clickSound.play();
+
     // Reset active program if active program is being closed
     if (isActiveProgram) {
       dispatch(changeActiveProgram(null));
@@ -97,7 +102,6 @@ export default function Program({
             : "from-[#7996DE] to-[#82A8E9]")
         }
         id={`${name}-title-bar`}
-        onDragStart={() => console.log("hello")}
       >
         <div className="flex-1 flex justify-start items-center h-6">
           <img

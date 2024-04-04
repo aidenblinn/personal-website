@@ -23,7 +23,6 @@ export default function Icon({
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.KeyboardEvent<HTMLDivElement>
   ): void => {
-    e.stopPropagation();
     if (type === "program" || type === "inprogress") {
       dispatch(changeActiveProgram(name));
       if (!taskBarPrograms.includes(name)) {
