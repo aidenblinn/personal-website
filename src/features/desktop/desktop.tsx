@@ -4,14 +4,21 @@ import UtilityBar from "./utilityBar/utilityBar.tsx";
 import { iconColumns } from "../../config/icons.ts";
 import { IconType } from "../../../types.ts";
 import React from "react";
-import { useAppSelector, useFocusModal } from "../../app/hooks.ts";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useFocusModal,
+} from "../../app/hooks.ts";
+import { closeStartMenu } from "./utilityBar/utilityBarSlice.ts";
 
 export default function Desktop(): React.ReactElement {
   const modalHierarchy = useAppSelector(
     (state) => state.programs.modalHierarchy
   );
   const focusModal = useFocusModal();
-  const muted = useAppSelector((state) => state.tools.muted);
+  const dispatch = useAppDispatch();
+  const muted = useAppSelector((state) => state.utilityBar.muted);
+
   const clickSound =
     typeof window !== "undefined" && window.Audio
       ? new Audio("sounds/click.mp3")
@@ -21,9 +28,14 @@ export default function Desktop(): React.ReactElement {
     <main
       className="flex flex-col h-dvh"
       role="presentation"
-      onClick={() => {
+      onClick={(e: React.BaseSyntheticEvent) => {
         if (clickSound !== null && !muted) {
           clickSound.play();
+        }
+
+        const utilityBar = document.getElementById("utility-bar");
+        if (!utilityBar?.contains(e.target)) {
+          dispatch(closeStartMenu());
         }
       }}
     >
