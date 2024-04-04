@@ -31,7 +31,7 @@ const icons: IconType[] = [
     },
   },
   {
-    name: "Folder",
+    name: "SECRET",
     type: "inprogress",
     ProgramModal: Placeholder,
     size: {
