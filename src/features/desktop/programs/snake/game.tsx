@@ -35,7 +35,10 @@ export default function Game({
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
 
   const muted = useAppSelector((state) => state.tools.muted);
-  const appleSound = new Audio("sounds/info.mp3");
+  const appleSound =
+    typeof window !== "undefined" && window.Audio
+      ? new Audio("sounds/info.mp3")
+      : null;
 
   useEffect(() => {
     // Listen for direction change when game started
@@ -144,7 +147,7 @@ export default function Game({
 
   const moveApple = (): void => {
     // Play sound
-    if (!muted) {
+    if (appleSound !== null && !muted) {
       appleSound.play();
     }
 

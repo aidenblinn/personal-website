@@ -12,14 +12,17 @@ export default function Desktop(): React.ReactElement {
   );
   const focusModal = useFocusModal();
   const muted = useAppSelector((state) => state.tools.muted);
-  const clickSound = new Audio("sounds/click.mp3");
+  const clickSound =
+    typeof window !== "undefined" && window.Audio
+      ? new Audio("sounds/click.mp3")
+      : null;
 
   return (
     <main
       className="flex flex-col h-dvh"
       role="presentation"
       onClick={() => {
-        if (!muted) {
+        if (clickSound !== null && !muted) {
           clickSound.play();
         }
       }}
