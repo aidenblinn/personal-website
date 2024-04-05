@@ -41,15 +41,16 @@ export default function Game({
       : null;
 
   useEffect(() => {
+    setGameActive(true);
     // Listen for direction change when game started
     document.addEventListener("keydown", onKeyDown);
-
     // Move snake on interval according to selected speed
     intervalRef.current = setInterval(
       () => moveSnake(snakeRef.current, directionRef.current),
       SPEEDS[speed]
     );
     return () => {
+      setGameActive(false);
       // Clear interval causing snake to move
       clearInterval(intervalRef.current as NodeJS.Timeout);
       // Clean up event listener when game over

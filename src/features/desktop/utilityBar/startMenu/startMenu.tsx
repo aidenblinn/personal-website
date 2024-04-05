@@ -17,7 +17,6 @@ export default function StartMenu(): React.ReactElement {
   const toggleStartMenu = (
     e: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
   ) => {
-    console.log(e.target);
     if (startMenuOpen) {
       dispatch(closeStartMenu());
     } else {
