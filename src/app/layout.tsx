@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Aiden Blinn | Software Engineer",
+  title: "Aiden Blinn",
   description: "Personal portfolio website for Aiden Blinn.",
+  metadataBase: new URL("https://aidenblinn.com"),
+  openGraph: {
+    title: "Aiden Blinn | Software Engineer",
+    images: ["/img/desktopAssets/bliss-background.jpg"],
+  },
 };
 
 export default function RootLayout({
