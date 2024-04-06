@@ -1,6 +1,16 @@
+/* Eager Loading (with initial request) */
 import Placeholder from "../features/desktop/programs/placeholder/placeholder.tsx";
-import Snake from "../features/desktop/programs/snake/index.tsx";
 import Email from "../features/desktop/programs/email/index.tsx";
+
+/* Lazy Loading for larger components */
+import dynamic from "next/dynamic";
+const Snake = dynamic(
+  () => import("../features/desktop/programs/snake/index.tsx"),
+  {
+    loading: Placeholder,
+    ssr: false,
+  }
+);
 
 import { IconType } from "../../types.ts";
 

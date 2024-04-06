@@ -57,6 +57,7 @@ export default function Desktop(): React.ReactElement {
             role="presentation"
           >
             {iconColumn.map((icon: IconType) => {
+              const zIndex = modalHierarchy.indexOf(icon.name);
               if (icon.type === "program" || icon.type === "inprogress") {
                 return (
                   <React.Fragment key={`${icon.name}-fragment`}>
@@ -65,11 +66,13 @@ export default function Desktop(): React.ReactElement {
                       icon={icon}
                       isLink={false}
                     ></Icon>
-                    <Program
-                      key={`${icon.name}-program`}
-                      program={icon}
-                      zIndex={modalHierarchy.indexOf(icon.name)}
-                    />
+                    {zIndex !== -1 && (
+                      <Program
+                        key={`${icon.name}-program`}
+                        program={icon}
+                        zIndex={zIndex}
+                      />
+                    )}
                   </React.Fragment>
                 );
               } else {
