@@ -79,7 +79,7 @@ const icons: IconType[] = [
     },
   },
   {
-    name: "Trash",
+    name: "Gallery",
     type: "inprogress",
     ProgramModal: InProgress,
     size: {
