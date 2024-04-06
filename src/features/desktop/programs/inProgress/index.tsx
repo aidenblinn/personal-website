@@ -1,4 +1,4 @@
-export default function Placeholder() {
+export default function InProgress() {
   return (
     <div className="flex flex-col justify-center items-center h-full bg-yellow-200">
       <img
