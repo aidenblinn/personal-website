@@ -131,7 +131,7 @@ export default function Program({
           (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
         }
       >
-        {ProgramModal()}
+        {<ProgramModal />}
       </div>
     </ReactModal>
   );

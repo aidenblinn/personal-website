@@ -6,7 +6,9 @@ export type ProgramType = {
   name: string;
   type: "program" | "inprogress";
   // Revisit
-  ProgramModal: (...args: any[]) => React.ReactElement;
+  ProgramModal:
+    | React.ComponentType<{}> // Lazy loaded components
+    | ((...args: any[]) => React.ReactElement); // Loaded immediately
   size: {
     initHeight: number;
     initWidth: number;
