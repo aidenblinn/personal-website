@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import StartMenu from "./startMenu";
+import Menu from "./menu";
 import Game from "./game";
 import { GameSpeed } from "./types";
 
@@ -23,7 +23,7 @@ export default function SnakeProgram(): React.ReactElement {
       id="snake-game"
       className="relative m-auto bg-slate-800 w-full h-full"
     >
-      <StartMenu
+      <Menu
         gameActive={gameActive}
         setGameActive={setGameActive}
         setSpeed={setSpeed}

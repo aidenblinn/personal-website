@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StartMenu({
+export default function Menu({
   gameActive,
   setGameActive,
   setSpeed,
