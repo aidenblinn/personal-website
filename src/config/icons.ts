@@ -1,14 +1,14 @@
 /* Eager Loading (with initial request) */
-import Placeholder from "../features/desktop/programs/placeholder/placeholder.tsx";
+import InProgress from "../features/desktop/programs/inProgress/index.tsx";
 import Email from "../features/desktop/programs/email/index.tsx";
 
 /* Lazy Loading for larger components */
 import dynamic from "next/dynamic";
+import Loading from "@/features/desktop/programs/loading.tsx";
 const Snake = dynamic(
   () => import("../features/desktop/programs/snake/index.tsx"),
   {
-    loading: Placeholder,
-    ssr: false,
+    loading: Loading,
   }
 );
 
@@ -43,7 +43,7 @@ const icons: IconType[] = [
   {
     name: "SECRET",
     type: "inprogress",
-    ProgramModal: Placeholder,
+    ProgramModal: InProgress,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -59,7 +59,7 @@ const icons: IconType[] = [
   {
     name: "Music",
     type: "inprogress",
-    ProgramModal: Placeholder,
+    ProgramModal: InProgress,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -70,7 +70,7 @@ const icons: IconType[] = [
   {
     name: "Paint",
     type: "inprogress",
-    ProgramModal: Placeholder,
+    ProgramModal: InProgress,
     size: {
       initHeight: 300,
       initWidth: 400,
@@ -81,7 +81,7 @@ const icons: IconType[] = [
   {
     name: "Trash",
     type: "inprogress",
-    ProgramModal: Placeholder,
+    ProgramModal: InProgress,
     size: {
       initHeight: 300,
       initWidth: 400,
