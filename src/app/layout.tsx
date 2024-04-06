@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={
-          "overflow-hidden overscroll-none select-none cursor-xp-default"
+          "overflow-hidden overscroll-none select-none cursor-xp-default h-dvh"
         }
       >
         {children}

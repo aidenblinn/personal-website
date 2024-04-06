@@ -11,6 +11,12 @@ const Snake = dynamic(
     loading: Loading,
   }
 );
+const Gallery = dynamic(
+  () => import("../features/desktop/programs/gallery/index.tsx"),
+  {
+    loading: Loading,
+  }
+);
 
 import { IconType } from "../../types.ts";
 
@@ -81,7 +87,7 @@ const icons: IconType[] = [
   {
     name: "Gallery",
     type: "inprogress",
-    ProgramModal: InProgress,
+    ProgramModal: Gallery,
     size: {
       initHeight: 300,
       initWidth: 400,

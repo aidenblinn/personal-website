@@ -9,17 +9,23 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "lil-gui": "^0.19.2",
+    "lodash": "^4.17.21",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-modal-resizable-draggable": "^0.1.6",
     "react-redux": "^9.1.0",
-    "resend": "^3.2.0"
+    "resend": "^3.2.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "three": "^0.163.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/three": "^0.163.0",
     "@typescript-eslint/parser": "^7.0.2",
     "autoprefixer": "^10.0.1",
     "eslint": "^8.56.0",
