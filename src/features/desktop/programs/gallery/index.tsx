@@ -74,7 +74,7 @@ export default function Gallery() {
     <Canvas>
       <OrbitControls makeDefault />
       <ambientLight color="white" intensity={4} />
-      <MatcapTexture location={"img/gallery/3.png"} />
+      <MatcapTexture location={"img/gallery/metalMatcap.png"} />
       <Floor />
     </Canvas>
   );
