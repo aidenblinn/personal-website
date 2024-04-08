@@ -89,10 +89,10 @@ const icons: IconType[] = [
     type: "inprogress",
     ProgramModal: Gallery,
     size: {
-      initHeight: 300,
-      initWidth: 400,
-      minHeight: 200,
-      minWidth: 200,
+      initHeight: 500,
+      initWidth: 800,
+      minHeight: 400,
+      minWidth: 400,
     },
   },
   {

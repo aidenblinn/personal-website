@@ -1,86 +1,81 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { Canvas, useFrame } from "react-three-fiber";
+import { OrbitControls, Text3D, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
-import * as dat from "lil-gui";
-import ResizeObserver from "resize-observer-polyfill";
-import { debounce } from "lodash";
 
-export default function Gallery(): React.ReactElement {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+const Floor = () => {
+  const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] =
+    useTexture([
+      "img/gallery/floorTexture/Substance_Graph_BaseColor.jpg",
+      "img/gallery/floorTexture/Substance_Graph_Displacement.jpg",
+      "img/gallery/floorTexture/Substance_Graph_Normal.jpg",
+      "img/gallery/floorTexture/Substance_Graph_Roughness.jpg",
+      "img/gallery/floorTexture/Substance_Graph_AmbientOcclusion.jpg",
+    ]).map((meshMap) => {
+      meshMap.wrapS = THREE.RepeatWrapping;
+      meshMap.wrapT = THREE.RepeatWrapping;
+      meshMap.repeat.set(10, 10);
+      return meshMap;
+    });
+
+  return (
+    <mesh position={[0, -1, 0]} rotation-x={-Math.PI / 2} scale={[10, 10, 0]}>
+      <planeGeometry />
+      <meshStandardMaterial
+        map={colorMap}
+        displacementMap={displacementMap}
+        normalMap={normalMap}
+        roughnessMap={roughnessMap}
+        aoMap={aoMap}
+      />
+    </mesh>
+  );
+};
+
+const MatcapTexture = ({ location }: { location: string }) => {
+  const welcomeText = useRef<THREE.Mesh>(null!);
+  const texture = useTexture(location);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (welcomeText !== null) {
+      welcomeText.current?.geometry?.computeBoundingBox();
+      const boundingBox = welcomeText.current.geometry.boundingBox;
+      const center = new THREE.Vector3();
+      boundingBox?.getCenter(center);
+      welcomeText.current.geometry.translate(-center.x, -center.y, -center.z);
+    }
+  }, [welcomeText]);
 
-    /* GUI controls for debugging  */
-    const gui = new dat.GUI();
-
-    /* Scene */
-    const scene = new THREE.Scene();
-
-    // Add box to scene
-    const mesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1, 5, 5, 5),
-      new THREE.MeshBasicMaterial({ color: 0xff0000 })
-    );
-    scene.add(mesh);
-
-    /* Camera */
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      canvasRef.current.offsetWidth / canvasRef.current.offsetHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 3;
-    camera.lookAt(mesh.position);
-    scene.add(camera);
-
-    /* Renderer */
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-    });
-    renderer.setSize(
-      canvasRef.current.offsetWidth,
-      canvasRef.current.offsetHeight
-    );
-
-    /* Controls */
-    const controls = new OrbitControls(camera, canvasRef.current);
-
-    /* Modal resize responsiveness */
-    // Listen to modal resizing events
-    const resizeObserver = new ResizeObserver(
-      // Throttle camera / renderer updates using debounce
-      debounce((entries: ResizeObserverEntry[]) => {
-        for (const entry of entries) {
-          // Update camera dimensions
-          const { width, height } = entry.contentRect;
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-          // Update render to fill new modal size
-          renderer.setSize(width, height);
-        }
-      }, 5)
-    );
-    resizeObserver.observe(canvasRef.current);
-
-    /* Animation */
-    const tick = () => {
-      if (!canvasRef.current) return;
-      controls.update();
-      // Render
-      renderer.render(scene, camera);
-
-      // Call tick again on the next frame
-      window.requestAnimationFrame(tick);
-    };
-    tick();
-
-    return () => {
-      renderer.dispose();
-      gui.destroy();
-    };
+  useFrame(({ clock }) => {
+    welcomeText.current.rotation.y = clock.getElapsedTime();
   });
 
-  return <canvas ref={canvasRef} className="!w-full !h-full" />;
+  return (
+    <Text3D
+      font="fonts/windows-xp-tahoma.json"
+      size={0.75}
+      height={0.2}
+      curveSegments={12}
+      bevelEnabled
+      bevelThickness={0.02}
+      bevelSize={0.02}
+      bevelOffset={0}
+      bevelSegments={5}
+      ref={welcomeText}
+    >
+      Welcome!
+      <meshMatcapMaterial matcap={texture} />
+    </Text3D>
+  );
+};
+
+export default function Gallery() {
+  return (
+    <Canvas>
+      <OrbitControls makeDefault />
+      <ambientLight color="white" intensity={4} />
+      <MatcapTexture location={"img/gallery/3.png"} />
+      <Floor />
+    </Canvas>
+  );
 }
