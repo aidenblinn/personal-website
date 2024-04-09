@@ -12,6 +12,7 @@ export default function StartMenu(): React.ReactElement {
     { name: "React", url: "https://react.dev/" },
     { name: "Redux", url: "https://redux.js.org/" },
     { name: "Tailwind", url: "https://tailwindcss.com/" },
+    { name: "Three.js", url: "https://threejs.org/" },
   ];
 
   const toggleStartMenu = (
