@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../app/hooks.ts";
 import Login from "./login/login.tsx";
 import Desktop from "./desktop/desktop.tsx";
+import { Audio } from "ts-audio";
 
 export default function Computer(): React.ReactElement {
   const loggedIn = useAppSelector((state) => state.login.loggedIn);
@@ -16,7 +17,7 @@ export default function Computer(): React.ReactElement {
 
     // Play login sound if computer unmuted
     if (loggedIn && !muted) {
-      const loginSound = new Audio("sounds/startup.mp3");
+      const loginSound = Audio({ file: "sounds/startup.mp3" });
       loginSound.play();
     }
   }, [loggedIn]);
