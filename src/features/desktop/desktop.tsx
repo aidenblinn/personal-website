@@ -1,9 +1,10 @@
+import React from "react";
+import { Audio } from "ts-audio";
 import Program from "./programs/program.tsx";
 import Icon from "./programs/icon.tsx";
 import UtilityBar from "./utilityBar/utilityBar.tsx";
 import { iconColumns } from "../../config/icons.ts";
 import { IconType } from "../../../types.ts";
-import React from "react";
 import {
   useAppDispatch,
   useAppSelector,
@@ -21,7 +22,7 @@ export default function Desktop(): React.ReactElement {
 
   const clickSound =
     typeof window !== "undefined" && window.Audio
-      ? new Audio("sounds/click.mp3")
+      ? Audio({ file: "sounds/click.mp3" })
       : null;
 
   return (

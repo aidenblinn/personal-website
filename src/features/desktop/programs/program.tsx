@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Audio } from "ts-audio";
 import { useAppSelector, useAppDispatch, useFocusModal } from "@/app/hooks.ts";
 import { removeModalFromDesktop } from "./programSlice.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
@@ -66,7 +67,7 @@ export default function Program({
 
     // Play click sound if computer not muted
     if (!muted) {
-      const clickSound = new Audio("sounds/click.mp3");
+      const clickSound = Audio({ file: "sounds/click.mp3" });
       clickSound.play();
     }
 

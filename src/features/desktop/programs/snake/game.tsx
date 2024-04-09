@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Audio } from "ts-audio";
 import { SPEEDS, GRIDSIZE } from "./constants";
 import Snake from "./snake";
 import {
@@ -37,7 +38,7 @@ export default function Game({
   const muted = useAppSelector((state) => state.utilityBar.muted);
   const appleSound =
     typeof window !== "undefined" && window.Audio
-      ? new Audio("sounds/info.mp3")
+      ? Audio({ file: "sounds/info.mp3" })
       : null;
 
   useEffect(() => {
@@ -167,7 +168,7 @@ export default function Game({
 
   const endGame = () => {
     if (!muted) {
-      const loseSound = new Audio("sounds/fail.mp3");
+      const loseSound = Audio({ file: "sounds/fail.mp3" });
       loseSound.play();
     }
     setScore(0);

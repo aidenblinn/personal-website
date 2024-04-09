@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Audio } from "ts-audio";
 import { useAppSelector } from "@/app/hooks";
 
 type EmailData = {
@@ -62,8 +63,8 @@ export default function Email() {
     if (!muted) {
       const notificationSound =
         sendEmailResponse.status === 200
-          ? new Audio("sounds/tada.mp3")
-          : new Audio("sounds/fail.mp3");
+          ? Audio({ file: "sounds/tada.mp3" })
+          : Audio({ file: "sounds/fail.mp3" });
       notificationSound.play();
     }
 
