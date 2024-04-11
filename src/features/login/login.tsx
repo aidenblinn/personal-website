@@ -13,8 +13,16 @@ export default function Login(): React.ReactElement {
 
   return (
     <main className="flex flex-col z-30 fixed top-0 left-0 w-screen h-dvh">
-      <div className="h-16 md:h-24 w-full bg-[#00309C]" />
-      <div className="flex flex-col md:flex-row items-center justify-end grow w-full bg-[#5A7EDC]">
+      <div className="relative h-16 md:h-24 w-full bg-[#00309C]">
+        <div className="absolute z-[1] h-2 w-full bottom-0 bg-gradient-to-r from-transparent via-white to-transparent" />
+      </div>
+      <div
+        className="flex flex-col md:flex-row items-center justify-end grow w-full  bg-[#5A7EDC]"
+        style={{
+          "backgroundImage":
+            "radial-gradient(circle closest-corner at 10% 20%, rgba(255,255,255,0.5), transparent)",
+        }}
+      >
         <div className="pb-4 md:pb-0 md:pr-4 md:w-1/2 md:text-right align-baseline">
           <h1 className="text-4xl text-white font-sans">Aiden Blinn</h1>
           <p className="text-white font-sans">To begin, click your user name</p>
@@ -41,7 +49,8 @@ export default function Login(): React.ReactElement {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center md:justify-end px-4 h-16 md:h-24 w-full bg-[#00309C]">
+      <div className="flex items-center justify-center relative md:justify-end px-4 h-16 md:h-24 w-full bg-[#00309C]">
+        <div className="absolute z-[1] h-2 w-full top-0 bg-gradient-to-r from-transparent via-[#E69C51] to-transparent" />
         {/* Toggle button adapted from the following source:
         https://flowbite.com/docs/forms/toggle/ */}
         <label className="inline-flex items-center cursor-pointer">
