@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Audio } from "ts-audio";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppSelector } from "@/app/hooks";
 import { useLogOutOfComputer } from "@/app/hooks";
 
 export default function Secret() {
   const [currentFolder, setFolder] = useState<number>(0);
+  const muted = useAppSelector((state) => state.utilityBar.muted);
 
   const logOutOfComputer = useLogOutOfComputer();
 
   const shutDownComputer = () => {
-    const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
-    logOutSound.play();
+    if (!muted) {
+      const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
+      logOutSound.play();
+    }
     logOutOfComputer();
   };
 
