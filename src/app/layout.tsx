@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://aidenblinn.com"),
   openGraph: {
     title: "Aiden Blinn | Software Engineer",
-    images: ["/img/desktopAssets/bliss-background.jpg"],
+    images: ["/img/desktop/bliss-background.jpg"],
   },
 };
 
