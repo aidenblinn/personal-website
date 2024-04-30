@@ -1,6 +1,7 @@
 /* Eager Loading (with initial request) */
 import InProgress from "../features/desktop/programs/inProgress/index.tsx";
 import Email from "../features/desktop/programs/email/index.tsx";
+import SECRET from "../features/desktop/programs/SECRET/index.tsx";
 
 /* Lazy Loading for larger components */
 import dynamic from "next/dynamic";
@@ -49,12 +50,12 @@ const icons: IconType[] = [
   {
     name: "SECRET",
     type: "inprogress",
-    ProgramModal: InProgress,
+    ProgramModal: SECRET,
     size: {
       initHeight: 300,
       initWidth: 400,
       minHeight: 200,
-      minWidth: 200,
+      minWidth: 300,
     },
   },
   {
