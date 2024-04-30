@@ -4,11 +4,13 @@ import { openStartMenu, closeStartMenu } from "../utilityBarSlice";
 import { useLogOutOfComputer } from "@/app/hooks";
 
 export default function StartMenu(): React.ReactElement {
+  const dispatch = useAppDispatch();
+  const logOutOfComputer = useLogOutOfComputer();
+
   const startMenuOpen = useAppSelector(
     (state) => state.utilityBar.startMenuOpen
   );
-  const dispatch = useAppDispatch();
-  const logOutOfComputer = useLogOutOfComputer();
+  const muted = useAppSelector((state) => state.utilityBar.muted);
 
   const startMenuItems = [
     { name: "Next", url: "https://nextjs.org/" },
@@ -33,8 +35,10 @@ export default function StartMenu(): React.ReactElement {
   };
 
   const handleLogOutClick = () => {
-    const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
-    logOutSound.play();
+    if (!muted) {
+      const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
+      logOutSound.play();
+    }
     logOutOfComputer();
   };
 
