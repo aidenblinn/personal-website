@@ -17,9 +17,13 @@ export const taskBarSlice = createSlice({
       const programs = [...state.programs];
       state.programs = programs.filter((el) => el !== action.payload);
     },
+    clearTaskBar: (state) => {
+      state.programs = [];
+    },
   },
 });
 
-export const { addToTaskBar, removeFromTaskBar } = taskBarSlice.actions;
+export const { addToTaskBar, removeFromTaskBar, clearTaskBar } =
+  taskBarSlice.actions;
 
 export default taskBarSlice.reducer;
