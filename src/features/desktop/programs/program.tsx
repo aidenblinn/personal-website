@@ -114,15 +114,17 @@ export default function Program({
             src={`img/programIcons/${name}.ico`}
             alt={`${name} program icon in title bar of program`}
           />
-          <p className="text-white">{name}</p>
+          <p id={`${name}-titlebar-name`} className="text-white">
+            {name}
+          </p>
         </div>
         {/* Button to close program */}
-        <div className="flex-1 h-6 text-right">
+        <div className="h-6">
           <button
-            className="bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
+            className="flex align-center justify-center bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
             onClick={(event) => closeProgram(name, event)}
           >
-            X
+            <p className="leading-5">x</p>
           </button>
         </div>
       </div>
