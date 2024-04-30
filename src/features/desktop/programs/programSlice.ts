@@ -23,10 +23,17 @@ export const programSlice = createSlice({
       const modals = [...state.modalHierarchy];
       state.modalHierarchy = modals.filter((el) => el !== action.payload);
     },
+    clearModals: (state) => {
+      state.modalHierarchy = [];
+    },
   },
 });
 
-export const { bumpModalToTop, addModalToDesktop, removeModalFromDesktop } =
-  programSlice.actions;
+export const {
+  bumpModalToTop,
+  addModalToDesktop,
+  removeModalFromDesktop,
+  clearModals,
+} = programSlice.actions;
 
 export default programSlice.reducer;
