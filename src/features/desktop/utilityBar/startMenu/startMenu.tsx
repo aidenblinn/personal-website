@@ -1,5 +1,7 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { Audio } from "ts-audio";
 import { openStartMenu, closeStartMenu } from "../utilityBarSlice";
+import { logOut } from "@/features/login/loginSlice";
 
 export default function StartMenu(): React.ReactElement {
   const startMenuOpen = useAppSelector(
@@ -29,43 +31,75 @@ export default function StartMenu(): React.ReactElement {
     window.open(url, "_blank");
   };
 
+  const handleLogOutClick = () => {
+    const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
+    logOutSound.play();
+    dispatch(logOut());
+  };
+
   return (
     <>
       <div
         className={
-          "fixed bottom-12 left-0 bg-white rounded-t-lg border-[3px] border-[#026AFE]" +
+          "fixed bottom-12 left-0 bg-white rounded-t-lg " +
           (startMenuOpen ? " visible" : " invisible")
         }
       >
-        <div className="flex items-center p-1 gap-2 bg-[#026AFE]">
-          <img
-            className="h-12 border-[1px] rounded-md border-white"
-            src="img/Profile.ico"
-            alt="Guest user login"
-          />
-          <p className="text-white">Built With</p>
+        <div className="relative bg-gradient-to-b from-[#2B5FC1] to-[#548AE1] rounded-t-lg overflow-hidden">
+          <div className="absolute z-[1] h-1 w-full top-0 bg-gradient-to-b from-white/50 rounded-t-lg" />
+          <div className="flex items-center p-4 gap-2 ">
+            <img
+              className="h-12 border-[1px] rounded-md border-white"
+              src="img/Profile.ico"
+              alt="Guest user login"
+            />
+            <p className="text-white">Built With</p>
+          </div>
         </div>
-        {startMenuItems.map(({ name, url }) => (
+        <div className="relative bg-[#548AE1] p-[3px]">
+          <div className="absolute z-[1] h-[2px] w-full top-[2px] bg-gradient-to-r from-transparent via-[#E69C51] to-transparent" />
+          {startMenuItems.map(({ name, url }) => (
+            <div
+              className="flex items-center px-4 py-2 gap-2 bg-white hover:bg-[#94C5FE]"
+              key={`${name}-program`}
+              onClick={() => handleMenuItemClick(url)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleMenuItemClick(url);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <img
+                src={`img/startMenu/${name}.ico`}
+                alt={`${name} start menu icon`}
+                className="h-6"
+              />
+              <p className="">{name}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end items-center p-2 gap-2 bg-gradient-to-b from-[#548AE1] to-[#2B5FC1]">
           <div
-            className="flex items-center p-2 gap-2 hover:bg-[#026AFE]/25"
-            key={`${name}-program`}
-            onClick={() => handleMenuItemClick(url)}
+            onClick={handleLogOutClick}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleMenuItemClick(url);
+                handleLogOutClick();
               }
             }}
             role="button"
             tabIndex={0}
           >
             <img
-              src={`img/startMenu/${name}.ico`}
-              alt={`${name} start menu icon`}
-              className="h-6"
+              className="h-6 hover:brightness-125"
+              src="img/desktop/LogOut.ico"
+              alt="Log out"
             />
-            <p className="">{name}</p>
           </div>
-        ))}
+          <p className="text-white text-xs">Log Out</p>
+        </div>
+        <div className="absolute z-[1] h-1 w-full bottom-0 bg-gradient-to-t from-black/50" />
       </div>
       <div
         className="relative flex items-center justify-center gap-2 w-fit h-full bg-green-500 hover:brightness-110 hover:cursor-xp-pointer rounded-r-lg"
