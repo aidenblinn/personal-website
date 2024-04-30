@@ -33,7 +33,7 @@ export default function Tools(): React.ReactElement {
         tabIndex={0}
       >
         <img
-          src={`img/desktopAssets/${muted ? "Muted" : "Unmuted"}.ico`}
+          src={`img/desktop/${muted ? "Muted" : "Unmuted"}.ico`}
           alt="Mute/unmute icon"
           className={"hover:brightness-125 hover:cursor-xp-pointer"}
         />
