@@ -16,13 +16,7 @@ export default function Icon({
 
   const taskBarPrograms = useAppSelector((state) => state.taskBar.programs);
 
-  const handleIconClick = (
-    name: string,
-    type: string,
-    e:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>
-  ): void => {
+  const handleIconClick = (name: string, type: string): void => {
     if (type === "program" || type === "inprogress") {
       dispatch(changeActiveProgram(name));
       if (!taskBarPrograms.includes(name)) {
@@ -43,10 +37,10 @@ export default function Icon({
     <div
       className="w-16 h-16 m-2 mb-10 relative hover:cursor-xp-pointer"
       id={`${name}-program`}
-      onClick={(e) => handleIconClick(name, type, e)}
+      onClick={(e) => handleIconClick(name, type)}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          handleIconClick(name, type, e);
+          handleIconClick(name, type);
         }
       }}
       role="button"
