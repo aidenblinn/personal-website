@@ -49,7 +49,7 @@ const icons: IconType[] = [
   },
   {
     name: "SECRET",
-    type: "inprogress",
+    type: "program",
     ProgramModal: SECRET,
     size: {
       initHeight: 300,
