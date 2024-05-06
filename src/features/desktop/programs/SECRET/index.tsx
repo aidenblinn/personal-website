@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Audio } from "ts-audio";
 import { useAppSelector } from "@/app/hooks";
 import { useLogOutOfComputer } from "@/app/hooks";
@@ -9,14 +9,64 @@ export default function Secret() {
 
   const logOutOfComputer = useLogOutOfComputer();
 
-  const shutDownComputer = () => {
+  // "Glitchy" shutdown function triggered by opening secret file
+  // Large function that should only be recomputed when needed
+  const shutDownComputer = async () => {
+    // Reusable function to pause code
+    const pause = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    const glitchOverlay = document.createElement("div");
+    glitchOverlay.style.cssText =
+      "position: fixed; top: 0; left: 0; width: 100%; height: 100%; animation: glitchFlashAnimation 2s infinite; z-index: 10;";
+    document.body.appendChild(glitchOverlay);
+
+    // Make all modals spin on desktop
+    const elements = document.querySelectorAll(".flexible-modal");
+    elements.forEach((modal) => {
+      const htmlModal = modal as HTMLElement;
+      htmlModal.className += " animate-spin";
+      htmlModal.style.cssText +=
+        "  animation: scaleAnimation 1s infinite alternate;";
+    });
+
+    // Initialize sounds to be reused
+    const clickSound = Audio({
+      file: "sounds/click.mp3",
+      loop: true,
+      volume: 1.4,
+    });
+    const failSound = Audio({
+      file: "sounds/fail.mp3",
+      loop: true,
+    });
+    const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
+    const tadaSound = Audio({ file: "sounds/tada.mp3" });
+
+    // Start looping / playing sounds
     if (!muted) {
-      const logOutSound = Audio({ file: "sounds/shutdown.mp3" });
+      clickSound.play();
+      failSound.play();
+      await pause(1000);
+      tadaSound.play();
+      await pause(1000);
+    } else {
+      await pause(2000);
+    }
+
+    // Stop glitch sounds and remove overlay
+    clickSound.stop();
+    failSound.stop();
+    document.body.removeChild(glitchOverlay);
+
+    if (!muted) {
       logOutSound.play();
     }
+
     logOutOfComputer();
   };
 
+  // Array of folders from least to most nested
   const folderHierarchy = [
     { name: "SECRET" },
     { name: "KEEP OUT" },
@@ -32,6 +82,7 @@ export default function Secret() {
     },
   ];
 
+  // Set folder name in title bar to name of current folder
   useEffect(() => {
     const titlebarName = document.getElementById("SECRET-titlebar-name");
     if (titlebarName !== null) {
@@ -40,6 +91,7 @@ export default function Secret() {
   }, [currentFolder]);
 
   const handleIconClick = (direction: string, onClick?: () => void) => {
+    // If function triggered by click, run function
     if (onClick !== undefined) {
       return onClick();
     }
@@ -48,8 +100,10 @@ export default function Secret() {
       direction === "forward" &&
       currentFolder !== folderHierarchy.length - 1
     ) {
+      // Move forwards to deeper folder
       setFolder(currentFolder + 1);
     } else if (direction === "back" && currentFolder !== 0) {
+      // Move backwards to less nested folder
       setFolder(currentFolder - 1);
     }
   };
@@ -87,10 +141,8 @@ export default function Secret() {
             tabIndex={0}
           >
             <img
-              className={
-                "rotate-180" +
-                (currentFolder !== 0 ? " hover:brightness-125" : "")
-              }
+              className={currentFolder !== 0 ? " hover:brightness-125" : ""}
+              style={{ transform: "scaleX(-1)" }}
               src="img/SECRET/NavArrow.ico"
               alt="Back navigation arrow"
             />
