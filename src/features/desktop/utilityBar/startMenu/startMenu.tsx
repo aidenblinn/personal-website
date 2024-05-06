@@ -50,7 +50,7 @@ export default function StartMenu(): React.ReactElement {
           (startMenuOpen ? " visible" : " invisible")
         }
       >
-        <div className="relative bg-gradient-to-b from-[#2B5FC1] to-[#548AE1] rounded-t-lg overflow-hidden">
+        <div className="relative px-4 bg-gradient-to-b from-[#2B5FC1] to-[#548AE1] rounded-t-lg overflow-hidden">
           <div className="absolute z-[1] h-1 w-full top-0 bg-gradient-to-b from-white/50 rounded-t-lg" />
           <div className="flex items-center p-4 gap-2 ">
             <img
