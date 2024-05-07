@@ -18,16 +18,15 @@ export default function Secret() {
 
     const glitchOverlay = document.createElement("div");
     glitchOverlay.style.cssText =
-      "position: fixed; top: 0; left: 0; width: 100%; height: 100%; animation: glitchFlashAnimation 2s infinite; z-index: 10;";
+      "position: fixed; top: 0; left: 0; width: 100%; height: 100%; animation: screenGlitchAnimation 2s infinite; z-index: 10;";
     document.body.appendChild(glitchOverlay);
 
-    // Make all modals spin on desktop
+    // Make all modals spin and zoom in/out on desktop
     const elements = document.querySelectorAll(".flexible-modal");
     elements.forEach((modal) => {
       const htmlModal = modal as HTMLElement;
-      htmlModal.className += " animate-spin";
-      htmlModal.style.cssText +=
-        "  animation: scaleAnimation 1s infinite alternate;";
+      htmlModal.style.animation =
+        "programGlitchAnimation 1s infinite alternate";
     });
 
     // Initialize sounds to be reused
