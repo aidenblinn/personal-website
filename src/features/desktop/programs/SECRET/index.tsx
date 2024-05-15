@@ -46,11 +46,11 @@ export default function Secret() {
     if (!muted) {
       clickSound.play();
       failSound.play();
-      await pause(1000);
+      await pause(1500);
       tadaSound.play();
       await pause(1000);
     } else {
-      await pause(2000);
+      await pause(2500);
     }
 
     // Stop glitch sounds and remove overlay
