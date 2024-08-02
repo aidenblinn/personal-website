@@ -194,7 +194,7 @@ const ControlButtons = ({
   handleKeyDown: (key: string) => void;
   handleKeyUp: (key: string) => void;
 }) => (
-  <div className="fixed bottom-10 left-10 z-50 flex flex-col items-center">
+  <div className="fixed bottom-5 left-5 z-50 flex flex-col items-center">
     <div className="flex flex-col items-center">
       <button
         className={buttonStyles}
