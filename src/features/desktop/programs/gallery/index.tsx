@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
-import { Text3D, useTexture } from "@react-three/drei";
+import { Text3D, useTexture, Html } from "@react-three/drei";
 import * as THREE from "three";
+import { isMobileDevice } from "@/utils/deviceTypeUtils";
 
 const Floor = ({ width }: { width: number }) => {
   const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] =
@@ -110,52 +111,19 @@ const MatcapTexture = ({ location }: { location: string }) => {
   );
 };
 
-function Gallery() {
+function Gallery({
+  moveForward,
+  moveBackward,
+  rotateLeft,
+  rotateRight,
+}: {
+  moveForward: boolean;
+  moveBackward: boolean;
+  rotateLeft: boolean;
+  rotateRight: boolean;
+}) {
   const { camera } = useThree();
-  const [moveForward, setMoveForward] = useState(false);
-  const [moveBackward, setMoveBackward] = useState(false);
-  const [rotateLeft, setRotateLeft] = useState(false);
-  const [rotateRight, setRotateRight] = useState(false);
-
   const floorWidth = 10;
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "ArrowUp") {
-      setMoveBackward(false);
-      setMoveForward(true);
-    } else if (event.key === "ArrowDown") {
-      setMoveForward(false);
-      setMoveBackward(true);
-    } else if (event.key === "ArrowLeft") {
-      setRotateRight(false);
-      setRotateLeft(true);
-    } else if (event.key === "ArrowRight") {
-      setRotateLeft(false);
-      setRotateRight(true);
-    }
-  };
-
-  const handleKeyUp = (event: KeyboardEvent) => {
-    if (event.key === "ArrowUp") {
-      setMoveForward(false);
-    } else if (event.key === "ArrowDown") {
-      setMoveBackward(false);
-    } else if (event.key === "ArrowLeft") {
-      setRotateLeft(false);
-    } else if (event.key === "ArrowRight") {
-      setRotateRight(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, []);
 
   useFrame(() => {
     const direction = new THREE.Vector3();
@@ -196,34 +164,144 @@ function Gallery() {
         position={[0, 0, -floorWidth / 2]}
         rotation={[0, 0, 0]}
         width={floorWidth}
-      />{" "}
-      {/* Front wall */}
+      />
       <Wall
         position={[0, 0, floorWidth / 2]}
         rotation={[0, Math.PI, 0]}
         width={floorWidth}
-      />{" "}
-      {/* Back wall */}
+      />
       <Wall
         position={[-floorWidth / 2, 0, 0]}
         rotation={[0, Math.PI / 2, 0]}
         width={floorWidth}
-      />{" "}
-      {/* Left wall */}
+      />
       <Wall
         position={[floorWidth / 2, 0, 0]}
         rotation={[0, -Math.PI / 2, 0]}
         width={floorWidth}
-      />{" "}
-      {/* Right wall */}
+      />
     </React.Fragment>
   );
 }
 
+const buttonStyles =
+  "w-12 h-12 rounded-lg bg-gray-800 bg-opacity-50 text-white border-none flex items-center justify-center cursor-pointer m-1";
+
+const ControlButtons = ({
+  handleKeyDown,
+  handleKeyUp,
+}: {
+  handleKeyDown: (key: string) => void;
+  handleKeyUp: (key: string) => void;
+}) => (
+  <div className="fixed bottom-10 left-10 z-50 flex flex-col items-center">
+    <div className="flex flex-col items-center">
+      <button
+        className={buttonStyles}
+        onTouchStart={() => handleKeyDown("ArrowUp")}
+        onTouchEnd={() => handleKeyUp("ArrowUp")}
+        onMouseDown={() => handleKeyDown("ArrowUp")}
+        onMouseUp={() => handleKeyUp("ArrowUp")}
+      >
+        ↑
+      </button>
+      <div className="flex flex-row">
+        <button
+          className={buttonStyles}
+          onTouchStart={() => handleKeyDown("ArrowLeft")}
+          onTouchEnd={() => handleKeyUp("ArrowLeft")}
+          onMouseDown={() => handleKeyDown("ArrowLeft")}
+          onMouseUp={() => handleKeyUp("ArrowLeft")}
+        >
+          ←
+        </button>
+        <button
+          className={buttonStyles}
+          onTouchStart={() => handleKeyDown("ArrowRight")}
+          onTouchEnd={() => handleKeyUp("ArrowRight")}
+          onMouseDown={() => handleKeyDown("ArrowRight")}
+          onMouseUp={() => handleKeyUp("ArrowRight")}
+        >
+          →
+        </button>
+      </div>
+      <button
+        className={buttonStyles}
+        onTouchStart={() => handleKeyDown("ArrowDown")}
+        onTouchEnd={() => handleKeyUp("ArrowDown")}
+        onMouseDown={() => handleKeyDown("ArrowDown")}
+        onMouseUp={() => handleKeyUp("ArrowDown")}
+      >
+        ↓
+      </button>
+    </div>
+  </div>
+);
+
 export default function App() {
+  const [moveForward, setMoveForward] = useState(false);
+  const [moveBackward, setMoveBackward] = useState(false);
+  const [rotateLeft, setRotateLeft] = useState(false);
+  const [rotateRight, setRotateRight] = useState(false);
+
+  const handleKeyDown = (key: string) => {
+    console.log(key);
+    if (key === "ArrowUp") {
+      setMoveBackward(false);
+      setMoveForward(true);
+    } else if (key === "ArrowDown") {
+      setMoveForward(false);
+      setMoveBackward(true);
+    } else if (key === "ArrowLeft") {
+      setRotateRight(false);
+      setRotateLeft(true);
+    } else if (key === "ArrowRight") {
+      setRotateLeft(false);
+      setRotateRight(true);
+    }
+  };
+
+  const handleKeyUp = (key: string) => {
+    if (key === "ArrowUp") {
+      setMoveForward(false);
+    } else if (key === "ArrowDown") {
+      setMoveBackward(false);
+    } else if (key === "ArrowLeft") {
+      setRotateLeft(false);
+    } else if (key === "ArrowRight") {
+      setRotateRight(false);
+    }
+  };
+
+  useEffect(() => {
+    const keyDownEvent = (event: KeyboardEvent) => handleKeyDown(event.key);
+    const keyUpEvent = (event: KeyboardEvent) => handleKeyUp(event.key);
+
+    window.addEventListener("keydown", keyDownEvent);
+    window.addEventListener("keyup", keyUpEvent);
+
+    return () => {
+      window.removeEventListener("keydown", keyDownEvent);
+      window.removeEventListener("keyup", keyUpEvent);
+    };
+  }, []);
+
   return (
-    <Canvas>
-      <Gallery />
-    </Canvas>
+    <>
+      <Canvas>
+        <Gallery
+          moveForward={moveForward}
+          moveBackward={moveBackward}
+          rotateLeft={rotateLeft}
+          rotateRight={rotateRight}
+        />
+      </Canvas>
+      {isMobileDevice && (
+        <ControlButtons
+          handleKeyDown={handleKeyDown}
+          handleKeyUp={handleKeyUp}
+        />
+      )}
+    </>
   );
 }
