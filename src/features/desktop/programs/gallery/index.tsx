@@ -76,6 +76,7 @@ const Wall = ({
 
 const MatcapTexture = ({ location }: { location: string }) => {
   const welcomeText = useRef<THREE.Mesh>(null!);
+  const arrowText = useRef<THREE.Mesh>(null!);
   const texture = useTexture(location);
 
   useEffect(() => {
@@ -86,28 +87,54 @@ const MatcapTexture = ({ location }: { location: string }) => {
       boundingBox?.getCenter(center);
       welcomeText.current.geometry.translate(-center.x, -center.y, -center.z);
     }
-  }, [welcomeText]);
+    if (arrowText !== null) {
+      arrowText.current?.geometry?.computeBoundingBox();
+      const boundingBox = arrowText.current.geometry.boundingBox;
+      const center = new THREE.Vector3();
+      boundingBox?.getCenter(center);
+      arrowText.current.geometry.translate(-center.x, -center.y, -center.z);
+    }
+  }, [welcomeText, arrowText]);
 
   useFrame(({ clock }) => {
-    welcomeText.current.rotation.y = clock.getElapsedTime();
+    welcomeText.current.rotation.y = clock.getElapsedTime() / 2;
+    arrowText.current.rotation.y = clock.getElapsedTime();
   });
 
   return (
-    <Text3D
-      font="fonts/windows-xp-tahoma.json"
-      size={0.75}
-      height={0.2}
-      curveSegments={12}
-      bevelEnabled
-      bevelThickness={0.02}
-      bevelSize={0.02}
-      bevelOffset={0}
-      bevelSegments={5}
-      ref={welcomeText}
-    >
-      Welcome!
-      <meshMatcapMaterial matcap={texture} />
-    </Text3D>
+    <group>
+      <Text3D
+        font="fonts/windows-xp-tahoma.json"
+        size={0.75}
+        height={0.2}
+        curveSegments={12}
+        bevelEnabled
+        bevelThickness={0.02}
+        bevelSize={0.02}
+        bevelOffset={0}
+        bevelSegments={5}
+        ref={welcomeText}
+      >
+        Welcome!
+        <meshMatcapMaterial matcap={texture} />
+      </Text3D>
+      <Text3D
+        font="fonts/windows-xp-tahoma.json"
+        size={0.3}
+        height={0.1}
+        curveSegments={12}
+        bevelEnabled
+        bevelThickness={0.02}
+        bevelSize={0.02}
+        bevelOffset={0}
+        bevelSegments={5}
+        ref={arrowText}
+        position={[0, -0.5, 0]}
+      >
+        &lt;use arrow keys to move&gt;
+        <meshMatcapMaterial matcap={texture} />
+      </Text3D>
+    </group>
   );
 };
 
