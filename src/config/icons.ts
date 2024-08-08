@@ -2,6 +2,7 @@
 import InProgress from "../features/desktop/programs/inProgress/index.tsx";
 import Email from "../features/desktop/programs/email/index.tsx";
 import SECRET from "../features/desktop/programs/SECRET/index.tsx";
+import Paint from "@/features/desktop/programs/paint/index.tsx";
 
 /* Lazy Loading for larger components */
 import dynamic from "next/dynamic";
@@ -77,12 +78,12 @@ const icons: IconType[] = [
   {
     name: "Paint",
     type: "inprogress",
-    ProgramModal: InProgress,
+    ProgramModal: Paint,
     size: {
       initHeight: 300,
       initWidth: 400,
-      minHeight: 200,
-      minWidth: 200,
+      minHeight: 300,
+      minWidth: 400,
     },
   },
   {
