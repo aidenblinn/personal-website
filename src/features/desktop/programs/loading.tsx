@@ -4,7 +4,7 @@ export default function Loading() {
       <img
         className="h-12 animate-spin"
         src="img/email/Sending.png"
-        alt="Email sending indicator"
+        alt="Loading indicator"
       />
     </div>
   );
