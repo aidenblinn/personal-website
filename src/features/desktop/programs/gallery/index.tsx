@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
-import { Text3D, useTexture, Html } from "@react-three/drei";
+import { Text3D, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { isMobileDevice } from "@/utils/deviceTypeUtils";
 
 const Floor = ({ width }: { width: number }) => {
+  // Import floor textures
   const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] =
     useTexture([
       "img/gallery/floorTexture/Floor_BaseColor.png",
@@ -46,6 +47,7 @@ const Wall = ({
   rotation: [number, number, number];
   width: number;
 }) => {
+  // Import wall textures
   const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] =
     useTexture([
       "img/gallery/wallTexture/Brick_BaseColor.png",
@@ -76,9 +78,10 @@ const Wall = ({
 
 const MatcapTexture = ({ location }: { location: string }) => {
   const welcomeText = useRef<THREE.Mesh>(null!);
-  const arrowText = useRef<THREE.Mesh>(null!);
+  const instructionText = useRef<THREE.Mesh>(null!);
   const texture = useTexture(location);
 
+  // Center welcome and instruction text in gallery
   useEffect(() => {
     if (welcomeText !== null) {
       welcomeText.current?.geometry?.computeBoundingBox();
@@ -87,18 +90,23 @@ const MatcapTexture = ({ location }: { location: string }) => {
       boundingBox?.getCenter(center);
       welcomeText.current.geometry.translate(-center.x, -center.y, -center.z);
     }
-    if (arrowText !== null) {
-      arrowText.current?.geometry?.computeBoundingBox();
-      const boundingBox = arrowText.current.geometry.boundingBox;
+    if (instructionText !== null) {
+      instructionText.current?.geometry?.computeBoundingBox();
+      const boundingBox = instructionText.current.geometry.boundingBox;
       const center = new THREE.Vector3();
       boundingBox?.getCenter(center);
-      arrowText.current.geometry.translate(-center.x, -center.y, -center.z);
+      instructionText.current.geometry.translate(
+        -center.x,
+        -center.y,
+        -center.z
+      );
     }
-  }, [welcomeText, arrowText]);
+  }, [welcomeText, instructionText]);
 
+  // Rotate texts continuously
   useFrame(({ clock }) => {
     welcomeText.current.rotation.y = clock.getElapsedTime() / 2;
-    arrowText.current.rotation.y = clock.getElapsedTime();
+    instructionText.current.rotation.y = clock.getElapsedTime();
   });
 
   return (
@@ -128,7 +136,7 @@ const MatcapTexture = ({ location }: { location: string }) => {
         bevelSize={0.02}
         bevelOffset={0}
         bevelSegments={5}
-        ref={arrowText}
+        ref={instructionText}
         position={[0, -0.5, 0]}
       >
         &lt;use arrow keys to move&gt;
@@ -156,17 +164,21 @@ function Gallery({
     const direction = new THREE.Vector3();
     camera.getWorldDirection(direction);
 
+    // Move camera based on arrow key input
     if (moveForward) {
       camera.position.addScaledVector(direction, 0.1);
     } else if (moveBackward) {
       camera.position.addScaledVector(direction, -0.1);
     }
 
+    // Rotate camera based on arrow key input
     if (rotateLeft) {
       camera.rotation.y += 0.02;
     } else if (rotateRight) {
       camera.rotation.y -= 0.02;
     }
+
+    // Keep camera within gallery boundaries
     const cameraBoundary = 0.92 * (floorWidth / 2);
     camera.position.x = THREE.MathUtils.clamp(
       camera.position.x,
@@ -182,6 +194,7 @@ function Gallery({
     camera.updateProjectionMatrix();
   });
 
+  // Render gallery components
   return (
     <React.Fragment>
       <ambientLight color="white" intensity={4} />
@@ -214,6 +227,7 @@ function Gallery({
 const buttonStyles =
   "w-12 h-12 rounded-lg bg-gray-800 bg-opacity-50 text-white border-none flex items-center justify-center cursor-pointer m-1";
 
+// Arrow key buttons for mobile phone movement
 const ControlButtons = ({
   handleKeyDown,
   handleKeyUp,
@@ -271,6 +285,7 @@ export default function App() {
   const [rotateLeft, setRotateLeft] = useState(false);
   const [rotateRight, setRotateRight] = useState(false);
 
+  // Update camera movement / rotation based on arrow key input
   const handleKeyDown = (key: string) => {
     console.log(key);
     if (key === "ArrowUp") {
@@ -313,6 +328,7 @@ export default function App() {
     };
   }, []);
 
+  // Render gallery inside of canvas
   return (
     <>
       <Canvas>
