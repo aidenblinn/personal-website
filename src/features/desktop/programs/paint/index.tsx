@@ -84,21 +84,36 @@ export default function Paint() {
       ctx.lineWidth = tool === "Eraser" ? 10 : 5;
     }
 
+    // Get coordinates of mouse or touch event
+    const getEventCoords = (e: MouseEvent | TouchEvent) => {
+      if (e instanceof TouchEvent) {
+        const touch = e.touches[0];
+        return {
+          offsetX: touch.clientX - canvas!.offsetLeft,
+          offsetY: touch.clientY - canvas!.offsetTop,
+        };
+      } else {
+        return { offsetX: e.offsetX, offsetY: e.offsetY };
+      }
+    };
+
     // Begin stroke on mouse down
-    const startDrawing = (e: MouseEvent) => {
+    const startDrawing = (e: MouseEvent | TouchEvent) => {
       if (tool !== "Fill" && ctx) {
+        const { offsetX, offsetY } = getEventCoords(e);
         ctx.lineWidth = tool === "Eraser" ? 10 : 5;
         ctx.strokeStyle = `rgba(${colorMap[color].join(",")})`;
         ctx.beginPath();
-        ctx.moveTo(e.offsetX, e.offsetY);
+        ctx.moveTo(offsetX, offsetY);
         drawing = true;
       }
     };
 
     // Continue line if mouse moved while pressed down
-    const draw = (e: MouseEvent) => {
+    const draw = (e: MouseEvent | TouchEvent) => {
       if (tool !== "Fill" && drawing && ctx) {
-        ctx.lineTo(e.offsetX, e.offsetY);
+        const { offsetX, offsetY } = getEventCoords(e);
+        ctx.lineTo(offsetX, offsetY);
         ctx.stroke();
       }
     };
@@ -120,6 +135,9 @@ export default function Paint() {
 
     if (canvas) {
       // Event listeners for drawing
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
       canvas.addEventListener("mousedown", startDrawing);
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mouseup", stopDrawing);
