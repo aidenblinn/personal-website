@@ -274,11 +274,26 @@ export default function Paint() {
   const handleSave = () => {
     const canvas = canvasRef.current;
     if (canvas) {
-      const dataURL = canvas.toDataURL("image/jpeg");
-      const link = document.createElement("a");
-      link.href = dataURL;
-      link.download = "drawing.jpg";
-      link.click();
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "drawing.jpg";
+
+          // Append the link to the body
+          document.body.appendChild(link);
+
+          // Programmatically trigger the click event
+          link.click();
+
+          // Remove the link from the document
+          document.body.removeChild(link);
+
+          // Revoke the object URL after the download
+          URL.revokeObjectURL(url);
+        }
+      }, "image/jpeg");
     }
   };
 
