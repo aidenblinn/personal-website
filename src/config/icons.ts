@@ -77,7 +77,7 @@ const icons: IconType[] = [
   },
   {
     name: "Paint",
-    type: "inprogress",
+    type: "program",
     ProgramModal: Paint,
     size: {
       initHeight: 300,
