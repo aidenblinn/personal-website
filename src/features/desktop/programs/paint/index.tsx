@@ -140,7 +140,6 @@ export default function Paint() {
     };
   }, [color, tool]);
 
-  // Flood fill function
   const floodFill = (x: number, y: number, color: Color) => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
@@ -149,38 +148,51 @@ export default function Paint() {
       const targetColor = getColorAtPixel(x, y, imgData);
       const colorToFill = colorMap[color];
 
-      if (targetColor === colorToFill) return; // No need to fill if color is the same
+      if (colorsAreEqual(targetColor, colorToFill)) return; // No need to fill if color is the same
 
-      const queue: [number, number][] = [[x, y]];
-      const pixelStack = queue;
+      const stack: [number, number][] = [[x, y]];
+      const { width, height, data } = imgData;
+      const index = (x: number, y: number) => (y * width + x) * 4;
 
-      while (pixelStack.length > 0) {
-        const [currentX, currentY] = pixelStack.pop()!;
-        const pos = (currentY * canvas.width + currentX) * 4;
+      while (stack.length > 0) {
+        const [currentX, currentY] = stack.pop()!;
+        const pos = index(currentX, currentY);
 
         if (
-          imgData.data[pos] === targetColor[0] &&
-          imgData.data[pos + 1] === targetColor[1] &&
-          imgData.data[pos + 2] === targetColor[2] &&
-          imgData.data[pos + 3] === targetColor[3]
+          data[pos] === targetColor[0] &&
+          data[pos + 1] === targetColor[1] &&
+          data[pos + 2] === targetColor[2] &&
+          data[pos + 3] === targetColor[3]
         ) {
-          // Fill pixel
-          imgData.data[pos] = colorToFill[0];
-          imgData.data[pos + 1] = colorToFill[1];
-          imgData.data[pos + 2] = colorToFill[2];
-          imgData.data[pos + 3] = colorToFill[3];
+          // Fill the pixel
+          data[pos] = colorToFill[0];
+          data[pos + 1] = colorToFill[1];
+          data[pos + 2] = colorToFill[2];
+          data[pos + 3] = colorToFill[3];
 
-          // Add neighboring pixels
-          pixelStack.push([currentX + 1, currentY]);
-          pixelStack.push([currentX - 1, currentY]);
-          pixelStack.push([currentX, currentY + 1]);
-          pixelStack.push([currentX, currentY - 1]);
+          // Add neighboring pixels to the stack
+          if (currentX > 0) stack.push([currentX - 1, currentY]); // left
+          if (currentX < width - 1) stack.push([currentX + 1, currentY]); // right
+          if (currentY > 0) stack.push([currentX, currentY - 1]); // top
+          if (currentY < height - 1) stack.push([currentX, currentY + 1]); // bottom
         }
       }
 
       ctx.putImageData(imgData, 0, 0);
       saveState(); // Save the new state after filling
     }
+  };
+
+  const colorsAreEqual = (
+    color1: [number, number, number, number],
+    color2: [number, number, number, number]
+  ) => {
+    return (
+      color1[0] === color2[0] &&
+      color1[1] === color2[1] &&
+      color1[2] === color2[2] &&
+      color1[3] === color2[3]
+    );
   };
 
   // Get the color of the pixel at the given position
