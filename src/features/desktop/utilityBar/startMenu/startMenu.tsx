@@ -46,7 +46,7 @@ export default function StartMenu(): React.ReactElement {
     <>
       <div
         className={
-          "fixed bottom-12 left-0 bg-white rounded-t-lg " +
+          "fixed z-20 bottom-12 left-0 bg-white rounded-t-lg " +
           (startMenuOpen ? " visible" : " invisible")
         }
       >
