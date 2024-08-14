@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 type Tool = "Pencil" | "Fill" | "Eraser";
 type Color = "black" | "red" | "green" | "blue" | "white";
 
-// Reused Tailwind styles
+// Reusable Tailwind styles
 const toolButton = "p-1 rounded hover:bg-black/10";
 const selectedToolButton = toolButton + " bg-black bg-opacity-10";
 const colorButton = {
@@ -54,6 +54,7 @@ export default function Paint() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       };
 
+      // Preserve existing drawing and fill new space with white
       const resizeCanvas = () => {
         const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
@@ -97,7 +98,7 @@ export default function Paint() {
       }
     };
 
-    // Begin stroke on mouse down
+    // Begin stroke on mouse down when using pencil/eraser
     const startDrawing = (e: MouseEvent | TouchEvent) => {
       if (tool !== "Fill" && ctx) {
         const { offsetX, offsetY } = getEventCoords(e);
@@ -109,7 +110,7 @@ export default function Paint() {
       }
     };
 
-    // Continue line if mouse moved while pressed down
+    // Continue line if mouse moved while pressed down when using pencil/eraser
     const draw = (e: MouseEvent | TouchEvent) => {
       if (tool !== "Fill" && drawing && ctx) {
         const { offsetX, offsetY } = getEventCoords(e);
@@ -118,7 +119,7 @@ export default function Paint() {
       }
     };
 
-    // Stop drawing on mouse up
+    // Stop drawing on mouse up when using pencil/eraser
     const stopDrawing = () => {
       if (tool !== "Fill" && ctx) {
         ctx.closePath();
@@ -134,14 +135,17 @@ export default function Paint() {
     };
 
     if (canvas) {
-      // Event listeners for drawing
+      // Event listeners for mobile drawing
       canvas.addEventListener("touchstart", startDrawing);
       canvas.addEventListener("touchmove", draw);
       canvas.addEventListener("touchend", stopDrawing);
+
+      // Event listeners for desktop drawing
       canvas.addEventListener("mousedown", startDrawing);
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mouseup", stopDrawing);
       canvas.addEventListener("mouseout", stopDrawing);
+
       // Event listener for fill tool
       canvas.addEventListener("click", handleCanvasClick);
     }
@@ -149,6 +153,9 @@ export default function Paint() {
     return () => {
       // Remove event listeners when component unmounts
       if (canvas) {
+        canvas.removeEventListener("touchstart", startDrawing);
+        canvas.removeEventListener("touchmove", draw);
+        canvas.removeEventListener("touchend", stopDrawing);
         canvas.removeEventListener("mousedown", startDrawing);
         canvas.removeEventListener("mousemove", draw);
         canvas.removeEventListener("mouseup", stopDrawing);
@@ -158,15 +165,17 @@ export default function Paint() {
     };
   }, [color, tool]);
 
+  // Perform flood fill on canvas when "Fill" tool used
   const floodFill = (x: number, y: number, color: Color) => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (canvas && ctx) {
+      // Get color of clicked pixel
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const targetColor = getColorAtPixel(x, y, imgData);
       const colorToFill = colorMap[color];
 
-      if (colorsAreEqual(targetColor, colorToFill)) return; // No need to fill if color is the same
+      if (colorsAreEqual(targetColor, colorToFill)) return; // No need to fill if target color is the same
 
       const stack: [number, number][] = [[x, y]];
       const { width, height, data } = imgData;
@@ -176,6 +185,7 @@ export default function Paint() {
         const [currentX, currentY] = stack.pop()!;
         const pos = index(currentX, currentY);
 
+        // Perform flood fill if current pixel is same color as clicked pixel
         if (
           data[pos] === targetColor[0] &&
           data[pos + 1] === targetColor[1] &&
@@ -246,10 +256,13 @@ export default function Paint() {
       const canvas = canvasRef.current;
       const ctx = ctxRef.current;
       if (canvas && ctx) {
+        // Add current canvas to redo history
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         setRedoHistory((prev) => [imgData, ...prev]);
+        // Switch canvas state to previous canvas (undo one step)
         const prevState = history[historyIndex - 1];
         ctx.putImageData(prevState, 0, 0);
+        // Decrement history index to match index of previous canvas
         setHistoryIndex((prev) => prev - 1);
       }
     }
@@ -260,9 +273,12 @@ export default function Paint() {
       const canvas = canvasRef.current;
       const ctx = ctxRef.current;
       if (canvas && ctx) {
+        // Add current canvas to undo history
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         setHistory((prev) => [...prev.slice(0, historyIndex + 1), imgData]);
+        // Increment history index
         setHistoryIndex((prev) => prev + 1);
+        // Switch canvas state to next canvas
         const nextState = redoHistory[0];
         ctx.putImageData(nextState, 0, 0);
         setRedoHistory((prev) => prev.slice(1));
@@ -276,10 +292,12 @@ export default function Paint() {
     if (canvas) {
       canvas.toBlob((blob) => {
         if (blob) {
+          // Create link with blob representation of canvas image
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
           link.download = "drawing.jpg";
+          link.target = "_blank"; // Open in a new tab
 
           // Append the link to the body
           document.body.appendChild(link);
@@ -300,6 +318,7 @@ export default function Paint() {
   return (
     <main className="flex flex-col space-y-2 w-full h-full px-4 py-4 bg-[#F5F2E3]">
       <div className="flex flex-row justify-between items-center">
+        {/* Action buttons */}
         <div className="flex space-x-2">
           <button
             className="p-1 rounded hover:bg-black/10"
@@ -329,6 +348,7 @@ export default function Paint() {
           </button>
         </div>
         <div className={menuSeparator}></div>
+        {/* Tool buttons */}
         <div className="flex space-x-2">
           <button
             className={tool === "Pencil" ? selectedToolButton : toolButton}
@@ -353,6 +373,7 @@ export default function Paint() {
           </button>
         </div>
         <div className={menuSeparator}></div>
+        {/* Color buttons */}
         <div className="flex space-x-2">
           {(["black", "red", "green", "blue"] as Color[]).map((c) => (
             <button
@@ -368,6 +389,7 @@ export default function Paint() {
           ))}
         </div>
       </div>
+      {/* Drawing canvas */}
       <div className="flex-1 bg-white border-t-2 border-gray-300">
         <canvas
           id="drawingCanvas"
