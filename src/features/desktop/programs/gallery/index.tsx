@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "react-three-fiber";
 import { Text3D, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { isMobileDevice } from "@/utils/deviceTypeUtils";
+import { useAppSelector } from "@/app/hooks";
 
 const Floor = ({ width }: { width: number }) => {
   // Import floor textures
@@ -76,10 +77,10 @@ const Wall = ({
   );
 };
 
-const MatcapTexture = ({ location }: { location: string }) => {
+const SpinningText = () => {
   const welcomeText = useRef<THREE.Mesh>(null!);
   const instructionText = useRef<THREE.Mesh>(null!);
-  const texture = useTexture(location);
+  const texture = useTexture("img/gallery/metalMatcap.png");
 
   // Center welcome and instruction text in gallery
   useEffect(() => {
@@ -198,8 +199,10 @@ function Gallery({
   return (
     <React.Fragment>
       <ambientLight color="white" intensity={4} />
-      <MatcapTexture location={"img/gallery/metalMatcap.png"} />
+      {/* Spinning welcome / instruction text */}
+      <SpinningText />
       <Floor width={floorWidth} />
+      {/* Render a wall joined to each edge of the floor */}
       <Wall
         position={[0, 0, -floorWidth / 2]}
         rotation={[0, 0, 0]}
@@ -228,7 +231,7 @@ const buttonStyles =
   "w-12 h-12 rounded-lg bg-gray-800 bg-opacity-50 text-white border-none flex items-center justify-center cursor-pointer m-1";
 
 // Arrow key buttons for mobile phone movement
-const ControlButtons = ({
+const MobileControls = ({
   handleKeyDown,
   handleKeyUp,
 }: {
@@ -241,8 +244,6 @@ const ControlButtons = ({
         className={buttonStyles}
         onTouchStart={() => handleKeyDown("ArrowUp")}
         onTouchEnd={() => handleKeyUp("ArrowUp")}
-        onMouseDown={() => handleKeyDown("ArrowUp")}
-        onMouseUp={() => handleKeyUp("ArrowUp")}
       >
         ↑
       </button>
@@ -251,8 +252,6 @@ const ControlButtons = ({
           className={buttonStyles}
           onTouchStart={() => handleKeyDown("ArrowLeft")}
           onTouchEnd={() => handleKeyUp("ArrowLeft")}
-          onMouseDown={() => handleKeyDown("ArrowLeft")}
-          onMouseUp={() => handleKeyUp("ArrowLeft")}
         >
           ←
         </button>
@@ -260,8 +259,6 @@ const ControlButtons = ({
           className={buttonStyles}
           onTouchStart={() => handleKeyDown("ArrowRight")}
           onTouchEnd={() => handleKeyUp("ArrowRight")}
-          onMouseDown={() => handleKeyDown("ArrowRight")}
-          onMouseUp={() => handleKeyUp("ArrowRight")}
         >
           →
         </button>
@@ -270,8 +267,6 @@ const ControlButtons = ({
         className={buttonStyles}
         onTouchStart={() => handleKeyDown("ArrowDown")}
         onTouchEnd={() => handleKeyUp("ArrowDown")}
-        onMouseDown={() => handleKeyDown("ArrowDown")}
-        onMouseUp={() => handleKeyUp("ArrowDown")}
       >
         ↓
       </button>
@@ -285,21 +280,33 @@ export default function App() {
   const [rotateLeft, setRotateLeft] = useState(false);
   const [rotateRight, setRotateRight] = useState(false);
 
+  // Only initiate movement if Gallery is active program
+  const isActiveProgram =
+    useAppSelector((state) => state.active.activeProgram) === "Gallery";
+  const isActiveProgramRef = useRef(isActiveProgram);
+
+  // Update active program ref when active program changes
+  useEffect(() => {
+    isActiveProgramRef.current = isActiveProgram;
+  }, [isActiveProgram]);
+
   // Update camera movement / rotation based on arrow key input
   const handleKeyDown = (key: string) => {
-    console.log(key);
-    if (key === "ArrowUp") {
-      setMoveBackward(false);
-      setMoveForward(true);
-    } else if (key === "ArrowDown") {
-      setMoveForward(false);
-      setMoveBackward(true);
-    } else if (key === "ArrowLeft") {
-      setRotateRight(false);
-      setRotateLeft(true);
-    } else if (key === "ArrowRight") {
-      setRotateLeft(false);
-      setRotateRight(true);
+    // Only initiate movement if Gallery is active program
+    if (isActiveProgramRef.current) {
+      if (key === "ArrowUp") {
+        setMoveBackward(false);
+        setMoveForward(true);
+      } else if (key === "ArrowDown") {
+        setMoveForward(false);
+        setMoveBackward(true);
+      } else if (key === "ArrowLeft") {
+        setRotateRight(false);
+        setRotateLeft(true);
+      } else if (key === "ArrowRight") {
+        setRotateLeft(false);
+        setRotateRight(true);
+      }
     }
   };
 
@@ -316,6 +323,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    // Add key event listeners for desktop movement throughout gallery
     const keyDownEvent = (event: KeyboardEvent) => handleKeyDown(event.key);
     const keyUpEvent = (event: KeyboardEvent) => handleKeyUp(event.key);
 
@@ -323,6 +331,7 @@ export default function App() {
     window.addEventListener("keyup", keyUpEvent);
 
     return () => {
+      // Remove key event listeners when component unmounts
       window.removeEventListener("keydown", keyDownEvent);
       window.removeEventListener("keyup", keyUpEvent);
     };
@@ -339,8 +348,9 @@ export default function App() {
           rotateRight={rotateRight}
         />
       </Canvas>
+      {/* Render mobile controls for mobile devices */}
       {isMobileDevice && (
-        <ControlButtons
+        <MobileControls
           handleKeyDown={handleKeyDown}
           handleKeyUp={handleKeyUp}
         />
