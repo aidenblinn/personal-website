@@ -33,6 +33,7 @@ export default function Paint() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const historyIndexRef = useRef(historyIndex);
 
   // Initialize and resize canvas
   useEffect(() => {
@@ -234,22 +235,22 @@ export default function Paint() {
     ] as [number, number, number, number];
   };
 
+  // Keep historyIndexRef in sync so saveState never reads a stale closure value
+  useEffect(() => {
+    historyIndexRef.current = historyIndex;
+  }, [historyIndex]);
+
   // Save canvas state to history for undo and redo
   const saveState = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (canvas && ctx) {
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      setHistory((prev) => [...prev.slice(0, historyIndex + 1), imgData]);
-      setHistoryIndex((prev) => prev + 1);
+      setHistory((prev) => [...prev.slice(0, historyIndexRef.current + 1), imgData]);
+      setHistoryIndex(historyIndexRef.current + 1);
       setRedoHistory([]);
     }
   };
-
-  // Save the state when tool or color changes
-  useEffect(() => {
-    saveState();
-  }, [tool, color]);
 
   const handleUndo = () => {
     if (historyIndex > 0) {

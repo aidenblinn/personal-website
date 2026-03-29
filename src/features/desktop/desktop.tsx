@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Audio } from "ts-audio";
 import Program from "./programs/program.tsx";
 import Icon from "./programs/icon.tsx";
@@ -20,18 +20,20 @@ export default function Desktop(): React.ReactElement {
   const dispatch = useAppDispatch();
   const muted = useAppSelector((state) => state.utilityBar.muted);
 
-  const clickSound =
-    typeof window !== "undefined" && window.Audio
-      ? Audio({ file: "sounds/click.mp3" })
-      : null;
+  const clickSound = useRef<ReturnType<typeof Audio> | null>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.Audio) {
+      clickSound.current = Audio({ file: "sounds/click.mp3" });
+    }
+  }, []);
 
   return (
     <main
       className="flex flex-col h-dvh"
       role="presentation"
       onClick={(e: React.BaseSyntheticEvent) => {
-        if (clickSound !== null && !muted) {
-          clickSound.play();
+        if (clickSound.current !== null && !muted) {
+          clickSound.current.play();
         }
 
         const utilityBar = document.getElementById("utility-bar");

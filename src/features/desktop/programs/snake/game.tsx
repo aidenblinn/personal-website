@@ -74,23 +74,14 @@ export default function Game({
   // Change snake direction when arrow key pressed
   const handleKeyDown = (code: string) => {
     const headDirection = snakeRef.current[0].direction;
-    switch (code) {
-      case "ArrowLeft":
-        if (headDirection !== "right") {
-          return setDirection("left");
-        }
-      case "ArrowRight":
-        if (headDirection !== "left") {
-          return setDirection("right");
-        }
-      case "ArrowDown":
-        if (headDirection !== "up") {
-          return setDirection("down");
-        }
-      case "ArrowUp":
-        if (headDirection !== "down") {
-          return setDirection("up");
-        }
+    if (code === "ArrowLeft" && headDirection !== "right") {
+      setDirection("left");
+    } else if (code === "ArrowRight" && headDirection !== "left") {
+      setDirection("right");
+    } else if (code === "ArrowDown" && headDirection !== "up") {
+      setDirection("down");
+    } else if (code === "ArrowUp" && headDirection !== "down") {
+      setDirection("up");
     }
   };
   const onKeyDown = (e: KeyboardEvent) => handleKeyDown(e.code);

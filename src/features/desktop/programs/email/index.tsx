@@ -112,6 +112,13 @@ export default function Email() {
 
   const { buttonColor, buttonContent } = renderSendButton();
 
+  const buttonColorClasses: Record<string, string> = {
+    yellow: "bg-yellow-500 hover:bg-yellow-600",
+    green: "bg-green-500 hover:bg-green-600",
+    red: "bg-red-500 hover:bg-red-600",
+    blue: "bg-blue-500 hover:bg-blue-600",
+  };
+
   return (
     <main className="flex flex-col items-center w-full h-full px-4 py-4 bg-[#F5F2E3]">
       <form
@@ -169,7 +176,7 @@ export default function Email() {
         />
         <button
           type="submit"
-          className={`flex justify-center items-center h-10 w-full bg-${buttonColor}-500 text-white py-2 hover:bg-${buttonColor}-600`}
+          className={`flex justify-center items-center h-10 w-full ${buttonColorClasses[buttonColor]} text-white py-2`}
           disabled={emailData.sendStatus !== "Unsent"} // Disable form while email is sending
         >
           {buttonContent}
