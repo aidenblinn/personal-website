@@ -88,7 +88,7 @@ const icons: IconType[] = [
   },
   {
     name: "Gallery",
-    type: "inprogress",
+    type: "program",
     ProgramModal: Gallery,
     size: {
       initHeight: 500,
