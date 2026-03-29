@@ -4,7 +4,7 @@ export default function TaskBar(): React.ReactElement {
   const focusModal = useFocusModal();
 
   const programs = useAppSelector((state) => state.taskBar.programs);
-  const activeProgram = useAppSelector((state) => state.active.activeProgram);
+  const activeProgram = useAppSelector((state) => state.programs.activeProgram);
 
   const baseStyle: string =
     "flex flex-wrap justify-start content-center h-full w-[120px] px-2 text-white rounded hover:cursor-xp-pointer";

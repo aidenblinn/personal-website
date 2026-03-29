@@ -4,7 +4,7 @@ import Program from "./programs/program.tsx";
 import Icon from "./programs/icon.tsx";
 import UtilityBar from "./utilityBar/utilityBar.tsx";
 import { iconColumns } from "../../config/icons.ts";
-import { IconType } from "../../../types.ts";
+import { IconType } from "@/types";
 import {
   useAppDispatch,
   useAppSelector,

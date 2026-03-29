@@ -282,7 +282,7 @@ export default function App() {
 
   // Only initiate movement if Gallery is active program
   const isActiveProgram =
-    useAppSelector((state) => state.active.activeProgram) === "Gallery";
+    useAppSelector((state) => state.programs.activeProgram) === "Gallery";
   const isActiveProgramRef = useRef(isActiveProgram);
 
   // Update active program ref when active program changes

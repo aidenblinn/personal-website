@@ -32,6 +32,9 @@ export const login = createSlice({
     },
     logOut: (state) => {
       state.loggedIn = false;
+      if (typeof window !== "undefined" && window.localStorage) {
+        localStorage.removeItem("lastLogin");
+      }
     },
   },
 });

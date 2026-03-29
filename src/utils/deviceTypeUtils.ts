@@ -1,4 +1,4 @@
-import { ProgramType } from "../../types.ts";
+import { ProgramType } from "@/types";
 
 type ProgramModalAttributes = {
   size: ProgramType["size"];

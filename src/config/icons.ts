@@ -20,7 +20,7 @@ const Gallery = dynamic(
   }
 );
 
-import { IconType } from "../../types.ts";
+import { IconType } from "@/types";
 
 /**
  * List of icons to be displayed on desktop,

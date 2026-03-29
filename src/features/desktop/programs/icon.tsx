@@ -1,5 +1,5 @@
 import { useAppSelector, useOpenProgram, useFocusModal } from "../../../app/hooks.ts";
-import { IconType } from "../../../../types.ts";
+import { IconType } from "@/types";
 
 export default function Icon({
   icon,

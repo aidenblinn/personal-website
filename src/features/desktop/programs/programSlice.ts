@@ -2,8 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: {
   modalHierarchy: string[];
+  activeProgram: string | null;
 } = {
   modalHierarchy: [],
+  activeProgram: null,
 };
 
 export const programSlice = createSlice({
@@ -26,6 +28,9 @@ export const programSlice = createSlice({
     clearModals: (state) => {
       state.modalHierarchy = [];
     },
+    changeActiveProgram: (state, action: PayloadAction<string | null>) => {
+      state.activeProgram = action.payload;
+    },
   },
 });
 
@@ -34,6 +39,7 @@ export const {
   addModalToDesktop,
   removeModalFromDesktop,
   clearModals,
+  changeActiveProgram,
 } = programSlice.actions;
 
 export default programSlice.reducer;

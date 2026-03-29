@@ -30,7 +30,7 @@ export default function Computer(): React.ReactElement {
 
   return (
     <>
-      {initialized && loggedIn === false && <Login />}
+      {initialized && !loggedIn && <Login />}
       <Desktop />
     </>
   );

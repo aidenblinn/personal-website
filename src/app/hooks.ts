@@ -1,12 +1,12 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import type { RootState, AppDispatch } from "./store";
-import { changeActiveProgram } from "../features/desktop/activeProgramSlice";
 import {
   bumpModalToTop,
   addModalToDesktop,
   removeModalFromDesktop,
   clearModals,
+  changeActiveProgram,
 } from "../features/desktop/programs/programSlice";
 import { logOut } from "@/features/login/loginSlice";
 import {

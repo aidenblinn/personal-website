@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import ErrorBoundary from "./ErrorBoundary";
 import { Audio } from "ts-audio";
 import { useAppSelector, useAppDispatch, useFocusModal, useCloseProgram } from "@/app/hooks.ts";
-import { changeActiveProgram } from "../activeProgramSlice.ts";
-import { ProgramType } from "../../../../types.ts";
+import { changeActiveProgram } from "./programSlice.ts";
+import { ProgramType } from "@/types";
 import {
   isMobileDevice,
   getAttributesByDeviceType,
@@ -32,7 +33,7 @@ export default function Program({
   const { ProgramModal, name, size } = program;
 
   const isActiveProgram =
-    useAppSelector((state) => state.active.activeProgram) === name;
+    useAppSelector((state) => state.programs.activeProgram) === name;
   const muted = useAppSelector((state) => state.utilityBar.muted);
 
   /** Add mousedown listener to draggable area of title bar
@@ -132,7 +133,7 @@ export default function Program({
           (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
         }
       >
-        {<ProgramModal />}
+        <ErrorBoundary name={name}>{<ProgramModal />}</ErrorBoundary>
       </div>
     </ReactModal>
   );
