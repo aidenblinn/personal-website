@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { Audio } from "ts-audio";
-import { useAppSelector, useAppDispatch, useFocusModal } from "@/app/hooks.ts";
-import { removeModalFromDesktop } from "./programSlice.ts";
+import { useAppSelector, useAppDispatch, useFocusModal, useCloseProgram } from "@/app/hooks.ts";
 import { changeActiveProgram } from "../activeProgramSlice.ts";
-import { removeFromTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
 import { ProgramType } from "../../../../types.ts";
 import {
   isMobileDevice,
@@ -28,6 +26,7 @@ export default function Program({
 }): React.ReactElement {
   const dispatch = useAppDispatch();
   const focusModal = useFocusModal();
+  const closeProgram_ = useCloseProgram();
   const onFocus = () => focusModal(name);
 
   const { ProgramModal, name, size } = program;
@@ -76,8 +75,7 @@ export default function Program({
       dispatch(changeActiveProgram(null));
     }
     // Remove program modal from screen and from task bar
-    dispatch(removeModalFromDesktop(name));
-    dispatch(removeFromTaskBar(name));
+    closeProgram_(name);
   };
 
   const modalAttributes = getAttributesByDeviceType({

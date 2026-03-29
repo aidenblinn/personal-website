@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { logIn } from "./loginSlice.tsx";
+import { logIn } from "./loginSlice.ts";
 import { toggleMute } from "../desktop/utilityBar/utilityBarSlice.ts";
 
 export default function Login(): React.ReactElement {

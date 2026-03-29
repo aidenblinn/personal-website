@@ -1,7 +1,4 @@
-import { useAppSelector, useAppDispatch } from "../../../app/hooks.ts";
-import { bumpModalToTop, addModalToDesktop } from "./programSlice.ts";
-import { changeActiveProgram } from "../activeProgramSlice.ts";
-import { addToTaskBar } from "../utilityBar/taskBar/taskBarSlice.ts";
+import { useAppSelector, useOpenProgram, useFocusModal } from "../../../app/hooks.ts";
 import { IconType } from "../../../../types.ts";
 
 export default function Icon({
@@ -11,22 +8,20 @@ export default function Icon({
   icon: IconType;
   isLink: boolean;
 }) {
-  const dispatch = useAppDispatch();
+  const openProgram = useOpenProgram();
+  const focusModal = useFocusModal();
   const { name, type } = icon;
 
   const taskBarPrograms = useAppSelector((state) => state.taskBar.programs);
 
   const handleIconClick = (name: string, type: string): void => {
     if (type === "program" || type === "inprogress") {
-      dispatch(changeActiveProgram(name));
       if (!taskBarPrograms.includes(name)) {
         // Only open program if not already open on desktop
-        dispatch(addToTaskBar(name));
-        // Add program modal to screen
-        dispatch(addModalToDesktop(name));
+        openProgram(name);
       } else {
         // Bump modal to top if application already open
-        dispatch(bumpModalToTop(name));
+        focusModal(name);
       }
     } else {
       window.open(icon.url, "_blank");

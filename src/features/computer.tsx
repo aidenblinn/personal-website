@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../app/hooks.ts";
 import Login from "./login/login.tsx";
 import Desktop from "./desktop/desktop.tsx";
@@ -7,7 +7,13 @@ import { Audio } from "ts-audio";
 export default function Computer(): React.ReactElement {
   const loggedIn = useAppSelector((state) => state.login.loggedIn);
   const muted = useAppSelector((state) => state.utilityBar.muted);
+  const mutedRef = useRef(muted);
   const [initialized, setInitialized] = useState(false);
+
+  // Keep mutedRef in sync so the login effect always reads the latest value
+  useEffect(() => {
+    mutedRef.current = muted;
+  }, [muted]);
 
   useEffect(() => {
     // Prevent login screen from flashing on page while page loading
@@ -16,7 +22,7 @@ export default function Computer(): React.ReactElement {
     }
 
     // Play login sound if computer unmuted
-    if (loggedIn && !muted) {
+    if (loggedIn && !mutedRef.current) {
       const loginSound = Audio({ file: "sounds/startup.mp3" });
       loginSound.play();
     }
