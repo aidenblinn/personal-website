@@ -1,10 +1,9 @@
 import { Resend } from "resend";
 import EmailTemplate from "../../../features/desktop/programs/email/template.tsx";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const emailData = await req.json();
     if (process.env.RECIPIENT_EMAIL === undefined) {
       throw new Error("Recipient email environment variable is not set");

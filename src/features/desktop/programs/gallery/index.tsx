@@ -295,7 +295,7 @@ function Gallery({
 }
 
 const buttonStyles =
-  "w-12 h-12 rounded-lg bg-gray-800 bg-opacity-50 text-white border-none flex items-center justify-center cursor-pointer m-1";
+  "w-12 h-12 rounded-lg bg-gray-800/50 text-white border-none flex items-center justify-center cursor-pointer m-1";
 
 const MobileControls = ({
   handleKeyDown,

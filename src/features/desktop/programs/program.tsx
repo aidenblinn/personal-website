@@ -1,22 +1,10 @@
-import { useEffect } from "react";
+import { Rnd } from "react-rnd";
 import ErrorBoundary from "./ErrorBoundary";
 import { Audio } from "ts-audio";
 import { useAppSelector, useAppDispatch, useFocusModal, useCloseProgram } from "@/app/hooks.ts";
 import { changeActiveProgram } from "./programSlice.ts";
 import { ProgramType } from "@/types";
-import {
-  isMobileDevice,
-  getAttributesByDeviceType,
-} from "../../../utils/deviceTypeUtils.ts";
-
-// This component relies on  accessing the document object -- only render on client side
-import dynamic from "next/dynamic";
-const ReactModal = dynamic(
-  () => {
-    return import("react-modal-resizable-draggable");
-  },
-  { ssr: false }
-);
+import { isMobileDevice } from "../../../utils/deviceTypeUtils.ts";
 
 export default function Program({
   program,
@@ -28,7 +16,6 @@ export default function Program({
   const dispatch = useAppDispatch();
   const focusModal = useFocusModal();
   const closeProgram_ = useCloseProgram();
-  const onFocus = () => focusModal(name);
 
   const { ProgramModal, name, size } = program;
 
@@ -36,105 +23,92 @@ export default function Program({
     useAppSelector((state) => state.programs.activeProgram) === name;
   const muted = useAppSelector((state) => state.utilityBar.muted);
 
-  /** Add mousedown listener to draggable area of title bar
-   * so that program focuses when bar first dragged
-   */
-  useEffect(() => {
-    // Only add listener if program present
-    if (zIndex > -1) {
-      const titleBar = document.querySelector(`#${name}-title-bar`);
-      const draggableArea = titleBar?.nextSibling?.nextSibling;
-      if (
-        draggableArea instanceof HTMLElement &&
-        draggableArea.onmousedown === null
-      ) {
-        draggableArea.onmousedown = onFocus;
-      }
-    }
-  }, [zIndex]);
+  const onFocus = () => focusModal(name);
 
-  /**
-   *
-   * @param name Name of program to close
-   * @param event Button click event
-   */
-  const closeProgram = (
-    name: string,
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
-    // Prevent click from triggering onFocus call in parent element
+  const closeProgram = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.stopPropagation();
-
-    // Play click sound if computer not muted
     if (!muted) {
       const clickSound = Audio({ file: "sounds/click.mp3" });
       clickSound.play();
     }
-
-    // Reset active program if active program is being closed
     if (isActiveProgram) {
       dispatch(changeActiveProgram(null));
     }
-    // Remove program modal from screen and from task bar
     closeProgram_(name);
   };
 
-  const modalAttributes = getAttributesByDeviceType({
-    size,
-    onFocus,
-  });
+  // On mobile: fill most of the viewport; on desktop: use configured dimensions
+  const initWidth  = isMobileDevice ? window.innerWidth  * 0.95 : size.initWidth;
+  const initHeight = isMobileDevice ? (window.innerHeight - 80) * 0.95 : size.initHeight;
+  const minWidth   = isMobileDevice ? initWidth  : (size.minWidth  ?? 0);
+  const minHeight  = isMobileDevice ? initHeight : (size.minHeight ?? 0);
+
+  // Title bar height in px
+  const TITLE_BAR_H = 32;
+
+  // Centre the window in the viewport (excluding the 48px utility bar)
+  const x = Math.max(0, (window.innerWidth  - initWidth)  / 2);
+  const y = Math.max(0, (window.innerHeight - 48 - initHeight - TITLE_BAR_H) / 2);
 
   return (
-    <ReactModal
-      className={
-        // offset z-index by 2 to account for z-indices of other page elements
-        `relative !z-[${zIndex + 2}] rounded-b-lg !border-none ` +
-        (isMobileDevice
-          ? " !absolute !top-[40px] !left-1/2 !transform !-translate-x-1/2"
-          : "")
-      }
-      isOpen={zIndex !== -1}
-      disableKeystroke={true}
-      {...modalAttributes}
+    <Rnd
+      default={{
+        x,
+        y,
+        width: initWidth,
+        height: initHeight + TITLE_BAR_H,
+      }}
+      minWidth={minWidth}
+      minHeight={minHeight + TITLE_BAR_H}
+      enableResizing={!isMobileDevice && !size.disableResize}
+      disableDragging={isMobileDevice}
+      dragHandleClassName={`${name}-drag-handle`}
+      onMouseDown={onFocus}
+      style={{ zIndex: zIndex + 2 }}
+      className="program-window rounded-lg overflow-visible"
     >
-      {/* Title Bar */}
-      <div
-        className={
-          "absolute -top-8 flex justify-between items-center h-8 w-full p-1 bg-gradient-to-b rounded-t-lg " +
-          (isActiveProgram
-            ? "from-[#0055E5] to-[#026AFE]"
-            : "from-[#7996DE] to-[#82A8E9]")
-        }
-        id={`${name}-title-bar`}
-      >
-        <div className="flex-1 flex justify-start items-center h-6">
-          <img
-            className="h-6 mr-2"
-            src={`img/programIcons/${name}.ico`}
-            alt={`${name} program icon in title bar of program`}
-          />
-          <p id={`${name}-titlebar-name`} className="text-white">
-            {name}
-          </p>
+      <div className="flex flex-col h-full w-full rounded-lg">
+        {/* Title bar — also the drag handle */}
+        <div
+          className={
+            `${name}-drag-handle flex justify-between items-center h-8 w-full p-1 rounded-t-lg bg-gradient-to-b ` +
+            (isActiveProgram
+              ? "from-[#0055E5] to-[#026AFE]"
+              : "from-[#7996DE] to-[#82A8E9]")
+          }
+          id={`${name}-title-bar`}
+        >
+          <div className="flex-1 flex justify-start items-center h-6">
+            <img
+              className="h-6 mr-2"
+              src={`img/programIcons/${name}.ico`}
+              alt={`${name} program icon in title bar of program`}
+            />
+            <p id={`${name}-titlebar-name`} className="text-white">
+              {name}
+            </p>
+          </div>
+          <div className="h-6">
+            <button
+              className="flex align-center justify-center bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
+              onClick={closeProgram}
+            >
+              <p className="leading-5">x</p>
+            </button>
+          </div>
         </div>
-        {/* Button to close program */}
-        <div className="h-6">
-          <button
-            className="flex align-center justify-center bg-red-600 text-white h-6 w-6 border-[1px] border-white rounded"
-            onClick={(event) => closeProgram(name, event)}
-          >
-            <p className="leading-5">x</p>
-          </button>
+        {/* Program content */}
+        <div
+          className={
+            "overflow-hidden flex-1 rounded-b-lg [&>*]:rounded-b-lg border-x-[3px] border-b-[3px] bg-white " +
+            (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
+          }
+        >
+          <ErrorBoundary name={name}>
+            <ProgramModal />
+          </ErrorBoundary>
         </div>
       </div>
-      <div
-        className={
-          "overflow-scroll h-full rounded-b-lg [&>*]:rounded-b-lg border-[3px] " +
-          (isActiveProgram ? "border-[#026AFE]" : "border-[#82A8E9]")
-        }
-      >
-        <ErrorBoundary name={name}>{<ProgramModal />}</ErrorBoundary>
-      </div>
-    </ReactModal>
+    </Rnd>
   );
 }

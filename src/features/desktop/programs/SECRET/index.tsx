@@ -22,7 +22,7 @@ export default function Secret() {
     document.body.appendChild(glitchOverlay);
 
     // Make all modals spin and zoom in/out on desktop
-    const elements = document.querySelectorAll(".flexible-modal");
+    const elements = document.querySelectorAll(".program-window");
     elements.forEach((modal) => {
       const htmlModal = modal as HTMLElement;
       htmlModal.style.animation =

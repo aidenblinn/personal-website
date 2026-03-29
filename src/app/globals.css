@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --background-image-bliss: url('../../public/img/desktop/bliss-background.jpg');
+
+  --cursor-xp-default: url('../../public/cursors/arrow.cur'), default;
+  --cursor-xp-help: url('../../public/cursors/help.cur'), help;
+  --cursor-xp-link: url('../../public/cursors/link.cur'), pointer;
+  --cursor-xp-move: url('../../public/cursors/move.cur'), move;
+  --cursor-xp-no: url('../../public/cursors/no.cur'), not-allowed;
+  --cursor-xp-size: url('../../public/cursors/size.cur'), nwse-resize;
+  --cursor-xp-wait: url('../../public/cursors/wait.cur'), wait;
+}
+
+@source "../features/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../app/**/*.{js,ts,jsx,tsx,mdx}";
+
+/* Safelist: dynamic z-index classes used at runtime */
+@source inline("!z-[0] !z-[1] !z-[2] !z-[3] !z-[4] !z-[5] !z-[6] !z-[7] !z-[8] !z-[9] !z-[10] !z-[11]");
+
+/* Safelist: dynamic background color classes used at runtime */
+@source inline("bg-yellow-500 bg-yellow-600 bg-blue-500 bg-blue-600 bg-red-500 bg-red-600 bg-green-500 bg-green-600");
 
 /* Set Default Sizes for HTML tags */
 

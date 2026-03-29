@@ -5,7 +5,7 @@ type Color = "black" | "red" | "green" | "blue" | "white";
 
 // Reusable Tailwind styles
 const toolButton = "p-1 rounded hover:bg-black/10";
-const selectedToolButton = toolButton + " bg-black bg-opacity-10";
+const selectedToolButton = toolButton + " bg-black/10";
 const colorButton = {
   tailwindClass: "w-6 h-6 hover:brightness-110",
   selectedBorderColor: "border-gray-300 border-4",

@@ -39,7 +39,7 @@ export default function Tools(): React.ReactElement {
         />
       </div>
 
-      <p className="ml-1 pb-1 text-white">{time}</p>
+      <p className="ml-1 pb-1 text-white" suppressHydrationWarning>{time}</p>
     </div>
   );
 }
