@@ -22,7 +22,6 @@
     "ts-audio": "^0.8.1"
   },
   "overrides": {
-    "three-stdlib": "^2.36.1",
     "three-stdlib": "^2.36.1"
   },
   "devDependencies": {
