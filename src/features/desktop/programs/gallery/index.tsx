@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Canvas, useFrame, useThree } from "react-three-fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text3D, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { isMobileDevice } from "@/utils/deviceTypeUtils";
